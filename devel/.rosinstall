@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/setup.sh

@@ -1,0 +1,8 @@
+prefix=/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/install
+
+Name: hector_components_description
+Description: Description of hector_components_description
+Version: 0.4.2
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
