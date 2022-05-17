@@ -353,6 +353,7 @@ hector_quadrotor_sim/hector_quadrotor/hector_quadrotor_gazebo_plugins/CMakeFiles
  /usr/include/ignition/msgs5/ignition/msgs/Factory.hh
  /usr/include/ignition/msgs5/ignition/msgs/Filesystem.hh
  /usr/include/ignition/msgs5/ignition/msgs/MessageTypes.hh
+ /usr/include/ignition/msgs5/ignition/msgs/PointCloudPackedUtils.hh
  /usr/include/ignition/msgs5/ignition/msgs/SuppressWarning.hh
  /usr/include/ignition/msgs5/ignition/msgs/Utility.hh
  /usr/include/ignition/msgs5/ignition/msgs/actor.pb.h
@@ -385,6 +386,7 @@ hector_quadrotor_sim/hector_quadrotor/hector_quadrotor_gazebo_plugins/CMakeFiles
  /usr/include/ignition/msgs5/ignition/msgs/cylindergeom.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/density.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/detail/Export.hh
+ /usr/include/ignition/msgs5/ignition/msgs/detail/PointCloudPackedUtils.hh
  /usr/include/ignition/msgs5/ignition/msgs/detail/SuppressWarning.hh
  /usr/include/ignition/msgs5/ignition/msgs/diagnostics.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/discovery.pb.h
@@ -448,6 +450,7 @@ hector_quadrotor_sim/hector_quadrotor/hector_quadrotor_gazebo_plugins/CMakeFiles
  /usr/include/ignition/msgs5/ignition/msgs/model.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/model_configuration.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/model_v.pb.h
+ /usr/include/ignition/msgs5/ignition/msgs/navsat.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/occupancy_grid.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/odometry.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/packet.pb.h

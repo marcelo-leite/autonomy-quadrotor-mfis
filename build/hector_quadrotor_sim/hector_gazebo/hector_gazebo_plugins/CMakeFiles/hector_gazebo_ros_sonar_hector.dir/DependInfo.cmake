@@ -30,6 +30,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/include"
   "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/src/hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/include"
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
@@ -39,14 +40,12 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/include/OGRE"
   "/usr/include/OGRE/Terrain"
   "/usr/include/OGRE/Paging"
-  "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/include"
   "/usr/include/simbody"
   "/usr/include/ignition/math6"
   "/usr/include/ignition/transport8"
   "/usr/include/ignition/msgs5"
   "/usr/include/ignition/common3"
   "/usr/include/ignition/fuel_tools4"
-  "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/src/hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/BEFORE"
   "/usr/include/eigen3"
   "/usr/include/sdformat-9.7/sdf/.."
   "/usr/include/ignition/cmake2"

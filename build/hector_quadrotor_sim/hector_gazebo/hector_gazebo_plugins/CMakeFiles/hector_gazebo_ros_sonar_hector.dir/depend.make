@@ -366,6 +366,7 @@ hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazeb
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/Factory.hh
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/Filesystem.hh
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/MessageTypes.hh
+hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/PointCloudPackedUtils.hh
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/SuppressWarning.hh
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/Utility.hh
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/actor.pb.h
@@ -398,6 +399,7 @@ hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazeb
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/cylindergeom.pb.h
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/density.pb.h
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/detail/Export.hh
+hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/detail/PointCloudPackedUtils.hh
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/detail/SuppressWarning.hh
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/diagnostics.pb.h
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/discovery.pb.h
@@ -461,6 +463,7 @@ hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazeb
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/model.pb.h
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/model_configuration.pb.h
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/model_v.pb.h
+hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/navsat.pb.h
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/occupancy_grid.pb.h
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/odometry.pb.h
 hector_quadrotor_sim/hector_gazebo/hector_gazebo_plugins/CMakeFiles/hector_gazebo_ros_sonar_hector.dir/src/gazebo_ros_sonar.cpp.o: /usr/include/ignition/msgs5/ignition/msgs/packet.pb.h

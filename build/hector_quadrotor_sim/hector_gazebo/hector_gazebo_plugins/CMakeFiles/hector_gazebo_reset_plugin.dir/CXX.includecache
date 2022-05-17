@@ -1719,6 +1719,8 @@ ignition/math/config.hh
 /usr/include/ignition/math6/ignition/math/Vector2.hh
 algorithm
 -
+cmath
+-
 limits
 -
 ignition/math/Helpers.hh
@@ -1756,6 +1758,8 @@ ignition/math/config.hh
 
 /usr/include/ignition/math6/ignition/math/Vector4.hh
 algorithm
+-
+cmath
 -
 limits
 -

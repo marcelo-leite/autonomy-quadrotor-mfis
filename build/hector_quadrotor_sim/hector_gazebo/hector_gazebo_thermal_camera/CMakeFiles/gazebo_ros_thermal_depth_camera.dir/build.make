@@ -276,8 +276,8 @@ gazebo_ros_thermal_depth_camera_EXTERNAL_OBJECTS =
 /home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0
 /home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.2.1
 /home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.4.0
-/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.8.1
-/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.9.2
+/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.9.0
+/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.10.0
 /home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
 /home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libignition-common3.so.3.14.0
 /home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel/lib/libgazebo_ros_thermal_depth_camera.so: /usr/lib/x86_64-linux-gnu/libuuid.so
