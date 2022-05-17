@@ -1,4 +1,5 @@
 
+from yaml import scan
 import rospy
 import numpy as np
 import pandas as pd
@@ -102,9 +103,10 @@ class PS2Control:
             
         while True:
             t = len(self.scan_data.ranges)
-            print(t/18)
-            # for i in np.linspace(0, t, t/18):
-            #     print(i)
+            s = []
+            for i in np.round(np.linspace(0,1080 - int(1080/18), 18)):
+                s.append(self.scan_data.ranges[i])
+                
             self.rate.sleep()
 
 
