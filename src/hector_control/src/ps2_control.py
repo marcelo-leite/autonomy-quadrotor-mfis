@@ -3,6 +3,7 @@ from yaml import scan
 import rospy
 import numpy as np
 import pandas as pd
+import os
 
 # MSG ROS
 from sensor_msgs.msg import Joy
@@ -110,7 +111,7 @@ class PS2Control:
 
         # JOY VARIABLES
         self.data = Joy()
-        self.rate = rospy.Rate(100) 
+        self.rate = rospy.Rate(500) 
         self.data.axes = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] # Lx  Ly  Ry Rx
         self.data.buttons = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #1  2   3   4   L1  R1  L2  R2  SELECT  START   L3  R3 
         self.move = Twist()
@@ -126,17 +127,30 @@ class PS2Control:
         # TIME WAILT 1s NECESSARY FOR SUBSCRIBER CALLBACK
         rospy.sleep(1)
         pass
+    def rot_print(self):
+        def print_angle(name, array):
+         
+            n = 5
+            print("Angle " + str(name) + ": " + "Yaw: " + str(round(np.degrees(array.z), n)) + " Pitch: " + str(round(np.degrees(array.x), n))  + " Row: " + str(round(np.degrees(array.y), n)))
 
+        while True:
+            os.system('clear')
+            # print_angle("Imu", self.rot_imu)
+            print_angle("Gaz", self.rot_gaz)
+            # print(self.pos_gaz)
+            self.rate.sleep()
+    
     def record_sensor(self):
         
         while True:
-            
-            self.data_record.record(self.pos_gaz.x, self.pos_gaz.y, self.rot_gaz.x, self.scan_data_r, self.move.linear.x, self.move.linear.y, self.move.angular.z)
-            self.rate.sleep()
-            if(self.data.buttons[0] == 1):
-                self.data_record.save()
-                print("END")
-                break
+           self.rot_print()
+
+            # self.data_record.record(self.pos_gaz.x, self.pos_gaz.y, self.rot_gaz.x, self.scan_data_r, self.move.linear.x, self.move.linear.y, self.move.angular.z)
+            # self.rate.sleep()
+            # if(self.data.buttons[0] == 1):
+            #     self.data_record.save()
+            #     print("END")
+            #     break
 
 
     def callback_joy(self, msg_joy):

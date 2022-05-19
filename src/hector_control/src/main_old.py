@@ -247,7 +247,7 @@ class HectorTrack(HectorControl):
         
         
         # Determine Alfa, Beta and Theta
-        alfa = self.rot_gaz.x
+        alfa = self.rot_gaz.z
         beta = np.arctan2((self.pose_goal.y - self.pose_current.y),(self.pose_goal.x -  self.pose_current.x))
         theta = beta - alfa 
 
