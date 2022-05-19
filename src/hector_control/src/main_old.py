@@ -211,9 +211,9 @@ class HectorTrack(HectorControl):
         # self.takeoff()
         rospy.sleep(3)
         print("Start")
-        self.pose_goal.x = 10
+        self.pose_goal.x = 20
         
-        self.pose_goal.y = 10
+        self.pose_goal.y = 20
         
         d_tolerance = 0.1
 

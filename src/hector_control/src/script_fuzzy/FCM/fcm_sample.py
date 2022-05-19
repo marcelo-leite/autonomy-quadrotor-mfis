@@ -30,11 +30,11 @@ for i, ((xmu, ymu), (xsigma, ysigma)) in enumerate(zip(centers, sigmas)):
     labels = np.hstack((labels, np.ones(200) * i))
 
 # Visualize the test data
-fig0, ax0 = plt.subplots()
-for label in range(3):
-    ax0.plot(xpts[labels == label], ypts[labels == label], '.',
-             color=colors[label])
-ax0.set_title('Test data: 200 points x3 clusters.')
+# fig0, ax0 = plt.subplots()
+# for label in range(3):
+#     ax0.plot(xpts[labels == label], ypts[labels == label], '.',
+#              color=colors[label])
+# ax0.set_title('Test data: 200 points x3 clusters.')
 
 
 

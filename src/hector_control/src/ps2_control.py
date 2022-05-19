@@ -14,12 +14,20 @@ from std_msgs.msg import Empty, String
 
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
+class Vector3D:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.z = 0
+
 class DataRecord:
     def __init__(self):
         self.x = []
         self.y = []
         self.theta = []
-        
+
+        self.laser = []
+
         self.vx = []
         self.vy = []
         self.wz = []
@@ -53,18 +61,30 @@ class DataRecord:
                             'wz' : []
                         })
 
-    def record(self, x, y, theta, vx, vy, wz):
+    def record(self, x, y, theta, laser, vx, vy, wz):
         
         self.x.append(x)
         self.y.append(y)
         self.theta.append(theta)
-        
-
+        self.laser.append(laser)
         self.vx.append(vx)
         self.vy.append(vy)
         self.wz.append(wz)
+        
     def save(self):
+    
+        self.df["x"] = self.x
+        self.df["y"] = self.y
+        self.df["theta"] = self.theta
 
+        l = np.array(self.laser)
+        for i in range(18):
+            aux = 'p' + str(i)
+            self.df[str(aux)] = l[:,i]
+        self.df["vx"] = self.vx
+        self.df["vy"] = self.vx
+        self.df["wz"] = self.wz
+        self.df.to_csv(r'test.csv', index=False)
         pass
 
         
@@ -81,31 +101,42 @@ class PS2Control:
         self.land_pub = rospy.Publisher("/land", Empty, queue_size=1)
         self.takeoff_pub = rospy.Publisher("/takeoff", Empty, queue_size=1)
         self.cmd_vel_pub = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
+
+        # DATA RECORD
+        self.data_record = DataRecord()
+        
         
         
 
         # JOY VARIABLES
         self.data = Joy()
-        self.rate = rospy.Rate(10) 
+        self.rate = rospy.Rate(100) 
         self.data.axes = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] # Lx  Ly  Ry Rx
         self.data.buttons = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #1  2   3   4   L1  R1  L2  R2  SELECT  START   L3  R3 
         self.move = Twist()
 
         # DATA QUADROTOR
         self.scan_data = LaserScan()
+        self.scan_data_r = np.zeros(18)
+
         self.gaz_data = ModelStates()
         self.pos_gaz = Point()
-
-
+        self.rot_gaz = Vector3D()
+        
+        # TIME WAILT 1s NECESSARY FOR SUBSCRIBER CALLBACK
+        rospy.sleep(1)
         pass
-    def record_data(self):
+
+    def record_sensor(self):
+        
         while True:
-            t = len(self.scan_data.ranges)
-            s = []
-            for i in np.round(np.linspace(0,1080 - int(1080/18), 18)):
-                s.append(self.scan_data.ranges[i])
-            s
+            
+            self.data_record.record(self.pos_gaz.x, self.pos_gaz.y, self.rot_gaz.x, self.scan_data_r, self.move.linear.x, self.move.linear.y, self.move.angular.z)
             self.rate.sleep()
+            if(self.data.buttons[0] == 1):
+                self.data_record.save()
+                print("END")
+                break
 
 
     def callback_joy(self, msg_joy):
@@ -116,7 +147,20 @@ class PS2Control:
         self.cmd_vel_pub.publish(self.move)
 
     def scan_callback(self, msg):
+        # scan data brute - 1081 Point
         self.scan_data = msg
+        t = len(self.scan_data.ranges)
+
+        # scan data reduction - 18 evenly spaced points
+        if(t == 1081):
+            index = np.linspace(0,1080 - int(1080/18), 18)
+            for i in range(18):
+                    aux = self.scan_data.ranges[int(index[i])]
+                    if(str(aux) == "inf"): 
+                        self.scan_data_r[i] = 100
+                    else:
+                        self.scan_data_r[i] = aux
+        # print(self.scan_data_r)
 
     def gaz_callback(self, msg):
         self.gaz_data  = msg
@@ -134,5 +178,5 @@ class PS2Control:
 
 rospy.init_node('hector_joy', anonymous=True)
 TeleopControl = PS2Control()
-TeleopControl.record_data()
-rospy.spin()
+TeleopControl.record_sensor()
+# rospy.spin()
