@@ -99,14 +99,12 @@ class PS2Control:
 
         pass
     def record_data(self):
-        # if(self.data[1] == 1):
-            
         while True:
             t = len(self.scan_data.ranges)
             s = []
             for i in np.round(np.linspace(0,1080 - int(1080/18), 18)):
                 s.append(self.scan_data.ranges[i])
-                
+            s
             self.rate.sleep()
 
 
