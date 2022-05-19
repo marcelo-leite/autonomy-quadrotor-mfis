@@ -9,7 +9,8 @@
   <include file="$(find hector_gazebo_worlds)/launch/start.launch">
     <arg name="gui" value="$(arg gui)"/>
     <!-- <arg name="world" value="$(find hector_gazebo_worlds)/worlds/willow_garage.world"/>  -->
-    <arg name="world" value="$(find hector_control)/worlds/quadrotor_sim/model.sdf"/> 
+    <!-- <arg name="world" value="$(find hector_control)/worlds/quadrotor_sim/model.sdf"/>  -->
+    <arg name="world" value="$(find hector_control)/worlds/quadrotor_sim/scene_obstacle_v2.sdf"/> 
   </include>
    
   <!-- Spawn simulated quadrotor uav -->
