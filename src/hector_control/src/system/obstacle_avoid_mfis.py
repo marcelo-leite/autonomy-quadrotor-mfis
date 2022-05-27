@@ -87,18 +87,66 @@ class ObstacleAvoid:
         self.FIS_OAFront.finput.addmb(0, m1)
         self.FIS_OAFront.finput.addmb(0, m2)
 
+        # CREAT MEMBERSHIP YAW DIRECTION
+        k_sb = xo[0]/2
+        yS = mb.trimf(xo,[xo[0], xo[0], xo[0] - k_sb]) +  mb.trimf(xo,[xo[0] - 3*k_sb, xo[0] - 4*k_sb, xo[0] - 4*k_sb])
+        yL = mb.trimf(xo,[xo[0], xo[0] - k_sb, xo[0] - 2*k_sb])
+        yN = mb.trimf(xo,[xo[0] - k_sb, xo[0] - 2*k_sb, xo[0] - 3*k_sb])
+        yO = mb.trimf(xo,[xo[0] - 2*k_sb, xo[0] - 3*k_sb, xo[0] - 4*k_sb])
+
         # 
-        self.FIS_OARight.finput.automf(1, 4)
-        self.FIS_OALeft.finput.automf(1, 4)
-        self.FIS_OAFront.finput.automf(1, 4)
-        self.FIS_OABack.finput.automf(1, 4)
+        self.FIS_OAFront.finput.addmb(0, yS)
+        self.FIS_OAFront.finput.addmb(0, yL)
+        self.FIS_OAFront.finput.addmb(0, yN)
+        self.FIS_OAFront.finput.addmb(0, yO)
+
+        self.FIS_OABack.finput.addmb(0, yS)
+        self.FIS_OABack.finput.addmb(0, yL)
+        self.FIS_OABack.finput.addmb(0, yN)
+        self.FIS_OABack.finput.addmb(0, yO)
+
+        self.FIS_OALeft.finput.addmb(0, yS)
+        self.FIS_OALeft.finput.addmb(0, yL)
+        self.FIS_OALeft.finput.addmb(0, yN)
+        self.FIS_OALeft.finput.addmb(0, yO)
+
+        self.FIS_OARight.finput.addmb(0, yS)
+        self.FIS_OARight.finput.addmb(0, yL)
+        self.FIS_OARight.finput.addmb(0, yN)
+        self.FIS_OARight.finput.addmb(0, yO)
 
 
-        # CREAT MEMBERSHIP OUTPUT
-        self.FIS_OARight.foutput.automf(0, 5)
-        self.FIS_OALeft.foutput.automf(0, 5)
-        self.FIS_OAFront.foutput.automf(0, 5)
-        self.FIS_OABack.foutput.automf(0, 5)
+
+        
+
+        self.FIS_OAFront.foutput.addmb(0, yS)
+        self.FIS_OAFront.foutput.addmb(0, yL)
+        self.FIS_OAFront.foutput.addmb(0, yN)
+        self.FIS_OAFront.foutput.addmb(0, yO)
+
+        self.FIS_OABack.foutput.addmb(0, yS)
+        self.FIS_OABack.foutput.addmb(0, yL)
+        self.FIS_OABack.foutput.addmb(0, yN)
+        self.FIS_OABack.foutput.addmb(0, yO)
+
+        self.FIS_OALeft.foutput.addmb(0, yS)
+        self.FIS_OALeft.foutput.addmb(0, yL)
+        self.FIS_OALeft.foutput.addmb(0, yN)
+        self.FIS_OALeft.foutput.addmb(0, yO)
+
+        self.FIS_OARight.foutput.addmb(0, yS)
+        self.FIS_OARight.foutput.addmb(0, yL)
+        self.FIS_OARight.foutput.addmb(0, yN)
+        self.FIS_OARight.foutput.addmb(0, yO)
+
+
+        # self.FIS_OALeft.foutput.plot()
+        # self.FIS_OAFront.finput.addmb(0, m1)
+        # self.FIS_OAFront.finput.addmb(0, m2)
+        # self.FIS_OARight.foutput.automf(0, 5)
+        # self.FIS_OALeft.foutput.automf(0, 5)
+        # self.FIS_OAFront.foutput.automf(0, 5)
+        # self.FIS_OABack.foutput.automf(0, 5)
 
         # RULE
 
@@ -159,10 +207,10 @@ class ObstacleAvoid:
         datarule_l = datarule_l.replace("G",2)
 
         # PANDAS DATAFRAME TO ARRAY
-        rule_b = datarule_b.values
+        rule_b = list(datarule_b.values)
         rule_l = datarule_l.values
         rule_r = datarule_r.values
-        rule_f = datarule_f.values
+        rule_f = list(datarule_f.values)
 
         # SET RULE
         self.FIS_OARight.rule.set(rule_r)
@@ -190,6 +238,11 @@ class ObstacleAvoid:
 if __name__ == '__main__':
 
     SOA = ObstacleAvoid(0.4,1.5)
+    SOA.avoid_front(0.6, 60)
+
+    # for d in np.linspace(0.4, 1.5, 10):
+    #     for yaw in np.linspace(-180, 180, 30):
+    #         SOA.avoid_back(d, yaw)
 
     
     
