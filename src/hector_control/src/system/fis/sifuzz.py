@@ -188,8 +188,37 @@ class rule:
 
     def set(self, dataset):
         self.ruleset = dataset
+class defuzz:
+    def __init__(self) -> None:
+        pass
+    # Center of Gravity (COG)
+    def cog(self, x, u):
+        aux_n = 0
+        aux_d = 0
+        for i in  range(len(x)):
+            aux_n = x[i]*u[i] + aux_n
+            aux_d = u[i] + aux_d
 
-class sifuzzy:
+        z = aux_n/aux_d
+        return z
+        # pass
+    # Bisector of Area Methods (BOA)
+    def boa(self, u):
+        pass
+    # Weight Average Method
+    def wam(self, u):
+        pass
+    # First of Maxima Method (FOM)
+    def fom(self, u):
+        pass
+    # Last of Maxima Method (LOM)
+    def lom(self, u):
+        pass
+    # Mean and Maxima Method (MOM)
+    def mom(self, u):
+        pass
+
+class sifuzzy(defuzz):
     def __init__(self, n_in, n_out):
         
         self.finput = finput(n_in, "Input")
@@ -197,43 +226,54 @@ class sifuzzy:
         self.rule = rule()
         
     
-    def mamfis(self, p):
+    def mamfis(self, p, op):
         
         # INTERSECTION
         f_ativ = []
         for i in range(len(p)):
             f_ativ.append(self.finput.intersect(i, p[i]))
+
             
+        print(f_ativ)
         # ATIVATION REGRA
         aggr = []
         for r in self.rule.ruleset:
             # print(r)
 
-            # RULE PREPOSITION INPUT AGGREGATION FMAX
-            aggr_p = 0
+            # RULE PREPOSITION INPUT AGGREGATION FMAX OR FMIN
+            if( op == 0):
+                aggr_p = 0
+            elif( op == 1):
+                aggr_p = 1
+            
             for j in range(len(r) - 1):
                 if(r[j] != "i"):
-                    aggr_p  = np.fmax(aggr_p, f_ativ[j][r[j]])
-
+                    if( op == 0):
+                        aggr_p  = np.fmax(aggr_p, f_ativ[j][int(r[j])])
+                    elif( op == 1):
+                        aggr_p  = np.fmin(aggr_p, f_ativ[j][int(r[j])])
             # RULE PREPOSITION INPUT WITH OUTPUT AGGREGATION FMIN
             aux = len(r) - 1
-            aggr.append(np.fmin(aggr_p, self.foutput.v[0].f[r[aux]]))
+            # print(r[aux])
+            aggr.append(np.fmin(aggr_p, self.foutput.v[0].f[int(r[aux])]))
         
         # UNIAO SETS FUZZY
         aggr_t = 0
         for j in range(len(aggr)):
+            # print(np.round(np.array(aggr[j]), 2))
             aggr_t  = np.fmax(aggr_t, aggr[j])
         # DEFUZZ CENTROID
+        # plt.plot(self.foutput.v[0].x, aggr_t)
+        # plt.show()
 
-        aux_n = 0
-        aux_d = 0
-        for i in  range(len(self.foutput.v[0].x)):
-            aux_n = self.foutput.v[0].x[i]*aggr_t[i] + aux_n
-            aux_d = aggr_t[i]+ aux_d
+        x = self.foutput.v[0].x
+        u = aggr_t
+        
 
-        z = aux_n/aux_d
+        z = self.cog(x, u)
         return z
         
     def sugfis(self):
         pass
+
 

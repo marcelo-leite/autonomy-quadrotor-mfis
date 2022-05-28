@@ -95,25 +95,25 @@ class ObstacleAvoid:
         yO = mb.trimf(xo,[xo[0] - 2*k_sb, xo[0] - 3*k_sb, xo[0] - 4*k_sb])
 
         # 
-        self.FIS_OAFront.finput.addmb(0, yS)
-        self.FIS_OAFront.finput.addmb(0, yL)
-        self.FIS_OAFront.finput.addmb(0, yN)
-        self.FIS_OAFront.finput.addmb(0, yO)
+        self.FIS_OAFront.finput.addmb(1, yS)
+        self.FIS_OAFront.finput.addmb(1, yL)
+        self.FIS_OAFront.finput.addmb(1, yN)
+        self.FIS_OAFront.finput.addmb(1, yO)
 
-        self.FIS_OABack.finput.addmb(0, yS)
-        self.FIS_OABack.finput.addmb(0, yL)
-        self.FIS_OABack.finput.addmb(0, yN)
-        self.FIS_OABack.finput.addmb(0, yO)
+        self.FIS_OABack.finput.addmb(1, yS)
+        self.FIS_OABack.finput.addmb(1, yL)
+        self.FIS_OABack.finput.addmb(1, yN)
+        self.FIS_OABack.finput.addmb(1, yO)
 
-        self.FIS_OALeft.finput.addmb(0, yS)
-        self.FIS_OALeft.finput.addmb(0, yL)
-        self.FIS_OALeft.finput.addmb(0, yN)
-        self.FIS_OALeft.finput.addmb(0, yO)
+        self.FIS_OALeft.finput.addmb(1, yS)
+        self.FIS_OALeft.finput.addmb(1, yL)
+        self.FIS_OALeft.finput.addmb(1, yN)
+        self.FIS_OALeft.finput.addmb(1, yO)
 
-        self.FIS_OARight.finput.addmb(0, yS)
-        self.FIS_OARight.finput.addmb(0, yL)
-        self.FIS_OARight.finput.addmb(0, yN)
-        self.FIS_OARight.finput.addmb(0, yO)
+        self.FIS_OARight.finput.addmb(1, yS)
+        self.FIS_OARight.finput.addmb(1, yL)
+        self.FIS_OARight.finput.addmb(1, yN)
+        self.FIS_OARight.finput.addmb(1, yO)
 
 
 
@@ -155,7 +155,7 @@ class ObstacleAvoid:
         # for i in range(3):
         #     plt.plot(self.FIS_OABack.finput.v[0].x,self.FIS_OABack.finput.v[0].f[i])
         # plt.show()
-        # self.FIS_OABack.finput.plot()
+        # self.FIS_OAFront.finput.plot()
         # print(self.FIS_OABack.finput.v[0].x)
 
         path_d = "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/src/hector_control/src/system"
@@ -208,7 +208,7 @@ class ObstacleAvoid:
 
         # PANDAS DATAFRAME TO ARRAY
         rule_b = list(datarule_b.values)
-        rule_l = datarule_l.values
+        rule_l = list(datarule_l.values)
         rule_r = datarule_r.values
         rule_f = list(datarule_f.values)
 
@@ -222,7 +222,7 @@ class ObstacleAvoid:
     def plot(self):
         pass 
     def avoid_left(self, d, theta):
-        return self.FIS_OALeft.mamfis([d, theta])
+        return self.FIS_OALeft.mamfis([d, theta], 1)
         
     def avoid_right(self, d, theta):
         return self.FIS_OARight.mamfis([d, theta])
@@ -231,14 +231,14 @@ class ObstacleAvoid:
         return self.FIS_OABack.mamfis([d, theta])
         
     def avoid_front(self, d, theta):
-        return self.FIS_OAFront.mamfis([d, theta])
+        return self.FIS_OAFront.mamfis([d, theta], 1)
 
 
 # PLOT 
 if __name__ == '__main__':
 
     SOA = ObstacleAvoid(0.4,1.5)
-    SOA.avoid_front(0.6, 60)
+    print(SOA.avoid_front(0.5, -120))
 
     # for d in np.linspace(0.4, 1.5, 10):
     #     for yaw in np.linspace(-180, 180, 30):
