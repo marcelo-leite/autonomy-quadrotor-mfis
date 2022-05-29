@@ -22,7 +22,7 @@ from std_msgs.msg import Empty, String
 
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
-from system.obstacle_avoid_new import ObstacleAvoid
+from system.obstacle_avoid_mfis_v2 import ObstacleAvoid
 import csv
 
 
@@ -192,9 +192,10 @@ class HectorTrack(HectorControl):
 
         self.pose_goal = Vector2D()
         self.pose_current = Vector2D()
-        
-        self.d_max = 3
-        self.d_min = 0.3
+    
+        # self.d_max = 1.2
+        self.d_max = 2
+        self.d_min = 0.4
         self.SOA = ObstacleAvoid(self.d_min, self.d_max)
         self.dataviwer = DataViwer()
     
@@ -211,11 +212,11 @@ class HectorTrack(HectorControl):
         # self.takeoff()
         rospy.sleep(3)
         print("Start")
-        self.pose_goal.x = 10
+        self.pose_goal.x = float(input("Digite x_goal: "))
         
-        self.pose_goal.y = 10
+        self.pose_goal.y =  float(input("Digite y_goal: "))
         
-        d_tolerance = 0.1
+        d_tolerance = 0.3
 
         while True:
             
@@ -226,15 +227,15 @@ class HectorTrack(HectorControl):
 
            
             self.path_goal(d)
-            self.obstacle_avoid()
-            self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y)
+            
+            # self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y)
 
 
             # # EXIT CONDITION
             if (d < d_tolerance):
                 v = Twist()
                 self.move(v)
-                self.dataviwer.parser_csv()
+                # self.dataviwer.parser_csv()
                 break
         pass
 
@@ -258,9 +259,10 @@ class HectorTrack(HectorControl):
         # print(pose_current.y)
 
         # SPEED FORCE
+        self.obstacle_avoid(np.rad2deg(theta))
         v_mod = 0
-        if(d > 1):
-            v_mod = 1
+        if(d > 0.5):
+            v_mod = 0.5
         else:
             v_mod = d
         self.forward_kinematics(v_mod, theta)
@@ -282,7 +284,7 @@ class HectorTrack(HectorControl):
 
         pass
 
-    def obstacle_avoid(self):       
+    def obstacle_avoid(self, yaw):       
         # ALGLE POSITION LASER DIRACTION
         # a_i = self.scan_data.angle_increment
         # a_i = 0.00581776862964
@@ -296,6 +298,7 @@ class HectorTrack(HectorControl):
 
         # GENERATION INDEX ARRAY OF ANGLE RANGE
         for angle in np.linspace(-44,45,20):
+        # for angle in np.linspace(-70,70,20):
             if(angle < 0):
                 temp = 360 + angle
             else:
@@ -305,16 +308,18 @@ class HectorTrack(HectorControl):
             af_array.append(np.round(aux_i,0))
         
         for angle in np.linspace(46,135,20):
+        # for angle in np.linspace(70,110,20):
             aux_i = radians(angle)*scan_size/(2*np.pi)
             ar_array.append(np.round(aux_i,0))
 
         for angle in np.linspace(136, 225, 20):
+        # for angle in np.linspace(111, 250, 20):
             
             aux_i = radians(angle)*scan_size/(2*np.pi)
             ab_array.append(np.round(aux_i,0))
 
-
         for angle in np.linspace(226, 315, 20):
+        # for angle in np.linspace(250, 290, 20):
             
             aux_i = radians(angle)*scan_size/(2*np.pi)
             al_array.append(np.round(aux_i,0))
@@ -378,6 +383,7 @@ class HectorTrack(HectorControl):
         
 
     
+        min = np.round(min, 1)
         
         # print(min)
         # print(index)
@@ -388,29 +394,37 @@ class HectorTrack(HectorControl):
         if(str(index) != "inf" and min <= self.d_max and min >= self.d_min):
             # SELECT REGION TO ENABLE FIS OBSTACLE AVOID 
             p = 1
+            # print(min)
+            yaw = int(yaw)
+            # print(x)
+            if(yaw > 180 or yaw < -180):
+                print("ERRADO")
+                # break
+
             if(index == 0):
-                theta = self.SOA.avoid_front(min)
+                theta = self.SOA.avoid_front(min, yaw)
                 # print(theta)
             elif(index == 1):
-                theta = self.SOA.avoid_right(min)
+                theta = self.SOA.avoid_right(min, yaw)
                 # print("Direita")
             elif(index == 2):
-                theta = self.SOA.avoid_back(min)
+                theta = self.SOA.avoid_back(min, yaw)
                 # theta = "inf"
                 # print("Tras")
             elif(index == 3):
                 # print("Esquerda")
-                theta = self.SOA.avoid_left(min)
+                theta = self.SOA.avoid_left(min, yaw)
             else:  
                 p =  0
+                self.forward_kinematics(0, theta)
 
             if(p == 1):
+
+                # os.system('clear') 
+                # print(theta)
+                # print(yaw)
                 theta = radians(theta)
                 self.forward_kinematics(1, theta)
-        # else:
-        #     # TESTE
-        #     self.forward_kinematics(0,0)   
-        #     pass
                
                 
 

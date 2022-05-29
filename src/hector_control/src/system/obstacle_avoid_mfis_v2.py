@@ -1,4 +1,5 @@
 
+from dataclasses import replace
 import sys
 import os
 from tkinter import font
@@ -58,7 +59,7 @@ class ObstacleAvoid:
         self.FIS_OABack.foutput.setdm(0, xo)
 
         # CREAT MEMBERSHIP INPUT
-        k = (d_max - d_min)/6
+        k = 0.3
 
         m0 = mb.gaussmf(xi_d, [k, d_min])
         m1 = mb.gaussmf(xi_d, [k, d_min + (d_max - d_min)/2])
@@ -88,58 +89,93 @@ class ObstacleAvoid:
         self.FIS_OAFront.finput.addmb(0, m2)
 
         # CREAT MEMBERSHIP YAW DIRECTION
-        k_sb = xo[0]/2
-        yS = mb.trimf(xo,[xo[0], xo[0], xo[0] - k_sb]) +  mb.trimf(xo,[xo[0] - 3*k_sb, xo[0] - 4*k_sb, xo[0] - 4*k_sb])
-        yL = mb.trimf(xo,[xo[0], xo[0] - k_sb, xo[0] - 2*k_sb])
-        yN = mb.trimf(xo,[xo[0] - k_sb, xo[0] - 2*k_sb, xo[0] - 3*k_sb])
-        yO = mb.trimf(xo,[xo[0] - 2*k_sb, xo[0] - 3*k_sb, xo[0] - 4*k_sb])
-
+    
+        k_sb = xo[0]/4
+        yS = mb.trimf(xo,[xo[0], xo[0], xo[0] - k_sb]) +  mb.trimf(xo,[xo[0] - 7*k_sb, xo[0] - 8*k_sb, xo[0] - 8*k_sb])
+        ySE = mb.trimf(xo,[xo[0], xo[0] - k_sb, xo[0] - 2*k_sb])
+        yE = mb.trimf(xo,[xo[0] - k_sb, xo[0] - 2*k_sb, xo[0] - 3*k_sb])
+        yNE = mb.trimf(xo,[xo[0] - 2*k_sb, xo[0] - 3*k_sb, xo[0] - 4*k_sb])
+        yN = mb.trimf(xo,[xo[0] - 3*k_sb, xo[0] - 4*k_sb, xo[0] - 5*k_sb])   
+        yNO = mb.trimf(xo,[xo[0] - 4*k_sb, xo[0] - 5*k_sb, xo[0] - 6*k_sb])
+        yO = mb.trimf(xo,[xo[0] - 5*k_sb, xo[0] - 6*k_sb, xo[0] - 7*k_sb])
+        ySO = mb.trimf(xo,[xo[0] - 6*k_sb, xo[0] - 7*k_sb, xo[0] - 8*k_sb])
         # 
         self.FIS_OAFront.finput.addmb(1, yS)
-        self.FIS_OAFront.finput.addmb(1, yL)
+        self.FIS_OAFront.finput.addmb(1, ySE)
+        self.FIS_OAFront.finput.addmb(1, yE)
+        self.FIS_OAFront.finput.addmb(1, yNE)
         self.FIS_OAFront.finput.addmb(1, yN)
+        self.FIS_OAFront.finput.addmb(1, yNO)
         self.FIS_OAFront.finput.addmb(1, yO)
+        self.FIS_OAFront.finput.addmb(1, ySO)
 
         self.FIS_OABack.finput.addmb(1, yS)
-        self.FIS_OABack.finput.addmb(1, yL)
+        self.FIS_OABack.finput.addmb(1, ySE)
+        self.FIS_OABack.finput.addmb(1, yE)
+        self.FIS_OABack.finput.addmb(1, yNE)
         self.FIS_OABack.finput.addmb(1, yN)
+        self.FIS_OABack.finput.addmb(1, yNO)
         self.FIS_OABack.finput.addmb(1, yO)
+        self.FIS_OABack.finput.addmb(1, ySO)
+
 
         self.FIS_OALeft.finput.addmb(1, yS)
-        self.FIS_OALeft.finput.addmb(1, yL)
+        self.FIS_OALeft.finput.addmb(1, ySE)
+        self.FIS_OALeft.finput.addmb(1, yE)
+        self.FIS_OALeft.finput.addmb(1, yNE)
         self.FIS_OALeft.finput.addmb(1, yN)
+        self.FIS_OALeft.finput.addmb(1, yNO)
         self.FIS_OALeft.finput.addmb(1, yO)
+        self.FIS_OALeft.finput.addmb(1, ySO)
 
         self.FIS_OARight.finput.addmb(1, yS)
-        self.FIS_OARight.finput.addmb(1, yL)
+        self.FIS_OARight.finput.addmb(1, ySE)
+        self.FIS_OARight.finput.addmb(1, yE)
+        self.FIS_OARight.finput.addmb(1, yNE)
         self.FIS_OARight.finput.addmb(1, yN)
+        self.FIS_OARight.finput.addmb(1, yNO)
         self.FIS_OARight.finput.addmb(1, yO)
+        self.FIS_OARight.finput.addmb(1, ySO)
 
-
-
-        
-
+        # MEMBERSHIP OUTPUT
         self.FIS_OAFront.foutput.addmb(0, yS)
-        self.FIS_OAFront.foutput.addmb(0, yL)
+        self.FIS_OAFront.foutput.addmb(0, ySE)
+        self.FIS_OAFront.foutput.addmb(0, yE)
+        self.FIS_OAFront.foutput.addmb(0, yNE)
         self.FIS_OAFront.foutput.addmb(0, yN)
+        self.FIS_OAFront.foutput.addmb(0, yNO)
         self.FIS_OAFront.foutput.addmb(0, yO)
+        self.FIS_OAFront.foutput.addmb(0, ySO)
 
         self.FIS_OABack.foutput.addmb(0, yS)
-        self.FIS_OABack.foutput.addmb(0, yL)
+        self.FIS_OABack.foutput.addmb(0, ySE)
+        self.FIS_OABack.foutput.addmb(0, yE)
+        self.FIS_OABack.foutput.addmb(0, yNE)
         self.FIS_OABack.foutput.addmb(0, yN)
+        self.FIS_OABack.foutput.addmb(0, yNO)
         self.FIS_OABack.foutput.addmb(0, yO)
+        self.FIS_OABack.foutput.addmb(0, ySO)
+
 
         self.FIS_OALeft.foutput.addmb(0, yS)
-        self.FIS_OALeft.foutput.addmb(0, yL)
+        self.FIS_OALeft.foutput.addmb(0, ySE)
+        self.FIS_OALeft.foutput.addmb(0, yE)
+        self.FIS_OALeft.foutput.addmb(0, yNE)
         self.FIS_OALeft.foutput.addmb(0, yN)
+        self.FIS_OALeft.foutput.addmb(0, yNO)
         self.FIS_OALeft.foutput.addmb(0, yO)
+        self.FIS_OALeft.foutput.addmb(0, ySO)
 
         self.FIS_OARight.foutput.addmb(0, yS)
-        self.FIS_OARight.foutput.addmb(0, yL)
+        self.FIS_OARight.foutput.addmb(0, ySE)
+        self.FIS_OARight.foutput.addmb(0, yE)
+        self.FIS_OARight.foutput.addmb(0, yNE)
         self.FIS_OARight.foutput.addmb(0, yN)
+        self.FIS_OARight.foutput.addmb(0, yNO)
         self.FIS_OARight.foutput.addmb(0, yO)
+        self.FIS_OARight.foutput.addmb(0, ySO)
 
-
+        # self.FIS_OALeft.finput.plot()
         # self.FIS_OALeft.foutput.plot()
         # self.FIS_OAFront.finput.addmb(0, m1)
         # self.FIS_OAFront.finput.addmb(0, m2)
@@ -158,53 +194,42 @@ class ObstacleAvoid:
         # self.FIS_OAFront.finput.plot()
         # print(self.FIS_OABack.finput.v[0].x)
 
-        path_d = "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/src/hector_control/src/system"
-        datarule_b = pd.read_csv(path_d + str("/datarule/datarule_rback.csv"), delimiter=',')
-        datarule_f = pd.read_csv(path_d +  str("/datarule/datarule_rfront.csv"))
-        datarule_r = pd.read_csv(path_d + str("/datarule/datarule_rright.csv"))
-        datarule_l = pd.read_csv(path_d + str("/datarule/datarule_rleft.csv"))
+        path_d = "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/src/hector_control/src/system/datarule/v2/"
+        datarule_b = pd.read_csv(path_d + str("datarule_rback.csv"), delimiter=',')
+        datarule_f = pd.read_csv(path_d +  str("datarule_rfront.csv"))
+        datarule_r = pd.read_csv(path_d + str("datarule_rright.csv"))
+        datarule_l = pd.read_csv(path_d + str("datarule_rleft.csv"))
 
         # datarule_b["D_BACK"].iloc
         # print(datarule_b.values)
-        # REPLACE BACK
-        datarule_b = datarule_b.replace("S",0)
-        datarule_b = datarule_b.replace("L",1)
-        datarule_b = datarule_b.replace("N",2)
-        datarule_b = datarule_b.replace("O",3)
+        def replace_label(data):
+            data = data.replace("S",0)
+            data = data.replace("SE",1)
+            data = data.replace("E",2)
+            data = data.replace("NE",3)
+            data = data.replace("N",4)
+            data = data.replace("NO",5)
+            data = data.replace("O",6)
+            data = data.replace("SO",7)
 
-        datarule_b = datarule_b.replace("P",0)
-        datarule_b = datarule_b.replace("M",1)
-        datarule_b = datarule_b.replace("G",2)
+            data = data.replace("P",0)
+            data = data.replace("M",1)
+            data = data.replace("G",2)
+
+            return data
+
+
+        # REPLACE BACK
+        datarule_b = replace_label(datarule_b)
 
         # REPLACE FRONT
-        datarule_f = datarule_f.replace("S",0)
-        datarule_f = datarule_f.replace("L",1)
-        datarule_f = datarule_f.replace("N",2)
-        datarule_f = datarule_f.replace("O",3)
-
-        datarule_f = datarule_f.replace("P",0)
-        datarule_f = datarule_f.replace("M",1)
-        datarule_f = datarule_f.replace("G",2)
+        datarule_f = replace_label(datarule_f)
 
         # REPLACE RIGHT
-        datarule_r = datarule_r.replace("S",0)
-        datarule_r = datarule_r.replace("L",1)
-        datarule_r = datarule_r.replace("N",2)
-        datarule_r = datarule_r.replace("O",3)
-
-        datarule_r = datarule_r.replace("P",0)
-        datarule_r = datarule_r.replace("M",1)
-        datarule_r = datarule_r.replace("G",2)
+        datarule_r = replace_label(datarule_r)
 
         # REPLACE LEFT
-        datarule_l = datarule_l.replace("S",0)
-        datarule_l = datarule_l.replace("L",1)
-        datarule_l = datarule_l.replace("N",2)
-        datarule_l = datarule_l.replace("O",3)
-
-        datarule_l = datarule_l.replace("P",0)
-        datarule_l = datarule_l.replace("M",1)
-        datarule_l = datarule_l.replace("G",2)
+        datarule_l = replace_label(datarule_l)
 
         # PANDAS DATAFRAME TO ARRAY
         rule_b = list(datarule_b.values)
@@ -236,34 +261,45 @@ class ObstacleAvoid:
 
 # PLOT 
 
-def plotmesh(x , y):
+def plotmesh(x , y, z):
 
     fig = plt.figure()
     ax = fig.add_subplot(projection="3d")
+   
+    x_data = np.asarray(x)
+    y_data = np.asarray(y)
+    z_data = np.asarray(z)
 
-    X,Y = np.meshgrid(x,y)
+    # x_data = np.asarray([2, 2, 2, 3, 3, 3, 1, 1, 1, 4, 4, 4])
+    # y_data = np.asarray([16, 64, 32, 64, 32, 16, 16, 32, 64, 32, 16, 64])
+    # z_data = np.asarray([64, 31, 29, 78, 72, 63, 93, 40, 54, 35, 44, 3])
+    # print(len(x_data))
+    # print(len(y_data))
+    # print(len(z_data))
+    # Sort coordinates and reshape in grid
+    idx = np.lexsort((y_data, x_data)).reshape((1444, 3))
 
 
-    z = np.array([SOA.avoid_front(x, y) for (x,y) in zip(np.ravel(X), np.ravel(Y))])
-    Z = z.reshape(X.shape)
-
-    ax.plot_surface(Y, X, Z, rstride=1, cstride=1, cmap='viridis', edgecolor='none')
-    plt.show()
+    # z = np.array([SOA.avoid_front(x, y) for (x,y) in zip(np.ravel(X), np.ravel(Y))])
+    # Z = z.reshape(X.shape)
+    # plt.contourf(x_data[idx], y_data[idx], z_data[idx])
+    # ax.plot_surface(y_data[idx], x_data[idx], z_data[idx], rstride=1, cstride=1, cmap='viridis', edgecolor='none')
+    # plt.show()
 
 
 if __name__ == '__main__':
     
-    pass
+    # pass
     # ax = plt.axes(projection='3d')
     SOA = ObstacleAvoid(0.4,2)
-    SOA.FIS_OAFront.finput.plot()
-    # print(SOA.avoid_front(1, -20))
-    r = [[],[],[]]
-    # x = np.round(np.linspace(0.4, 1.5, 1.1/0.01), 2)
-    # y = np.round(np.linspace(-180, 180, 360/0.01), 2)
+    SOA.FIS_OALeft.finput.plot()
+    # print(SOA.avoid_left(0.8, 70))
+    # r = [[],[],[]]
+    # # x = np.round(np.linspace(0.4, 1.5, 1.1/0.01), 2)
+    # # y = np.round(np.linspace(-180, 180, 360/0.01), 2)
 
-    # x = np.round(np.linspace(0.4, 1.5, int(1.1/0.01)), 2)
-    # y = np.linspace(-180, 180, 360 + 1)
+    # x = np.linspace(0.4, 1.5, int(1.1/0.1) + 1)
+    # y = np.round(np.linspace(-180, 180, int(360) + 1), 0)
     # # z = []
     # # print(x)
     # for d in x:
@@ -275,7 +311,7 @@ if __name__ == '__main__':
 
     
     # r = np.array(r)
-    # # plotmesh(r[0], r[1])
+    # plotmesh(r[0], r[1], r[2])
     # ax.scatter(r[0],r[1], r[2])
     # plt.show()
 

@@ -177,7 +177,9 @@ class finput(fset):
             for j in range(len(self.v[i].f)):
                 array.append(self.v[i].f[j][pos])
         else:
+            print(x0)
             print("Não Encontrado")
+            # print(x0)
         return array
 
 class rule:
@@ -209,8 +211,10 @@ class defuzz:
     def wam(self, u):
         pass
     # First of Maxima Method (FOM)
-    def fom(self, u):
-        pass
+    def fom(self, x, u):
+        index = np.argmax(u)
+        z = x[index]
+        return z
     # Last of Maxima Method (LOM)
     def lom(self, u):
         pass
@@ -234,7 +238,7 @@ class sifuzzy(defuzz):
             f_ativ.append(self.finput.intersect(i, p[i]))
 
             
-        print(f_ativ)
+        # print(f_ativ)
         # ATIVATION REGRA
         aggr = []
         for r in self.rule.ruleset:
@@ -270,7 +274,7 @@ class sifuzzy(defuzz):
         u = aggr_t
         
 
-        z = self.cog(x, u)
+        z = self.fom(x, u)
         return z
         
     def sugfis(self):
