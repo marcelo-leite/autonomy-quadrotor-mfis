@@ -1,4 +1,6 @@
 
+from array import array
+from cProfile import label
 from dataclasses import replace
 import sys
 import os
@@ -259,61 +261,82 @@ class ObstacleAvoid:
         return self.FIS_OAFront.mamfis([d, theta], 1)
 
 
-# PLOT 
+# PLOT FUZZY OUTPUT UNIVERSE
+def  foutput_universe():
 
-def plotmesh(x , y, z):
+    ax = plt.axes(projection='3d')
+    SOA = ObstacleAvoid(0.4,2)
+    x = np.linspace(0.4, 2, 30)
+    y = np.linspace(-180, 180, 30)
+    x = np.around(x, 1)
+    y = np.around(y, 0)
 
-    fig = plt.figure()
-    ax = fig.add_subplot(projection="3d")
-   
-    x_data = np.asarray(x)
-    y_data = np.asarray(y)
-    z_data = np.asarray(z)
+    r = [[], [], []]
+    for d in x:
+        for yaw in y:
+            r[0].append(d)
+            r[1].append(yaw)
+            r[2].append(SOA.avoid_back(d, yaw))
 
-    # x_data = np.asarray([2, 2, 2, 3, 3, 3, 1, 1, 1, 4, 4, 4])
-    # y_data = np.asarray([16, 64, 32, 64, 32, 16, 16, 32, 64, 32, 16, 64])
-    # z_data = np.asarray([64, 31, 29, 78, 72, 63, 93, 40, 54, 35, 44, 3])
-    # print(len(x_data))
-    # print(len(y_data))
-    # print(len(z_data))
-    # Sort coordinates and reshape in grid
-    idx = np.lexsort((y_data, x_data)).reshape((1444, 3))
+    r[0] = np.around(r[0], decimals=1)
+    r = np.array(r)
+    X, Y = np.meshgrid(x, y)
+    Z = np.zeros(X.shape)
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            for k in range(len(r[0])):
+                if(r[0][k] == X[i,j]):
+                    if(r[1][k] == Y[i, j]):
+                        Z[i,j] = r[2][k]
+                        break
 
+    # ax.contour3D(X, Y, Z, 50, cmap='binary')    
+    ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap='viridis', edgecolor='none')
+    plt.show()
 
-    # z = np.array([SOA.avoid_front(x, y) for (x,y) in zip(np.ravel(X), np.ravel(Y))])
-    # Z = z.reshape(X.shape)
-    # plt.contourf(x_data[idx], y_data[idx], z_data[idx])
-    # ax.plot_surface(y_data[idx], x_data[idx], z_data[idx], rstride=1, cstride=1, cmap='viridis', edgecolor='none')
-    # plt.show()
+def finput1_plot():
+    SOA = ObstacleAvoid(0.4,2)
+    x = SOA.FIS_OAFront.finput.v[0].x
+    f = SOA.FIS_OAFront.finput.v[0].f
+    vl = ["P", "M", "G"]
+    for i in range(len(f)):
+        plt.plot(x,f[i], label=vl[i])
+    
+    # plt.ylim([0,1])
+    # plt.xlim([0.4,2])
+
+    plt.xlabel("Distância")
+    plt.ylabel("Pertinência")
+    plt.legend()
+    plt.show()
+
+def finput2_plot():
+    SOA = ObstacleAvoid(0.4,2)
+    x = SOA.FIS_OAFront.finput.v[1].x
+    f = SOA.FIS_OAFront.finput.v[1].f
+    vl = ["S", "SE", "E", "NE", "N", "NO", "O", "SO"]
+    
+    for i in range(len(f)):
+        # plt.plot(x,f[i])
+        j = np.argmax(f[i])
+        # plt.text(x[j] - 5, f[i][j] + 0.01, vl[i])
+        plt.plot(x,f[i], label=vl[i])
+    plt.xticks(np.arange(-180, 180, 45))
+    plt.xlabel("Ângulo")
+    plt.xlim([-180,180])
+    plt.ylim([0,1])
+    plt.ylabel("Pertinência")
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.show()
 
 
 if __name__ == '__main__':
+    # foutput_universe()
+    finput1_plot()
     
-    # pass
-    # ax = plt.axes(projection='3d')
-    SOA = ObstacleAvoid(0.4,2)
-    SOA.FIS_OALeft.finput.plot()
-    # print(SOA.avoid_left(0.8, 70))
-    # r = [[],[],[]]
-    # # x = np.round(np.linspace(0.4, 1.5, 1.1/0.01), 2)
-    # # y = np.round(np.linspace(-180, 180, 360/0.01), 2)
 
-    # x = np.linspace(0.4, 1.5, int(1.1/0.1) + 1)
-    # y = np.round(np.linspace(-180, 180, int(360) + 1), 0)
-    # # z = []
-    # # print(x)
-    # for d in x:
-    #     for yaw in y:
-    #         # print("{} {}".format(d, yaw))
-    #         r[0].append(d)
-    #         r[1].append(yaw)
-    #         r[2].append(SOA.avoid_left(d, yaw))
 
-    
-    # r = np.array(r)
-    # plotmesh(r[0], r[1], r[2])
-    # ax.scatter(r[0],r[1], r[2])
-    # plt.show()
+
 
 
 

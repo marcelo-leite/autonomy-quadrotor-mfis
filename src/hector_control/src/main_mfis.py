@@ -44,23 +44,25 @@ class DataViwer():
     def __init__(self):
         self.x = []
         self.y = []
+        self.s = []
         self.z = []
         self.t = []
         self.beta = []
         self.alfa = []
         pass
 
-    def coleta_data(self, x, y):
+    def coleta_data(self, x, y, s):
         self.x.append(x)
         self.y.append(y)
+        self.s.append(s)
         pass
         
     def parser_csv(self):
-        with open('datapose.csv', 'w') as file:
+        with open('datapose_208v1.csv', 'w') as file:
             writer = csv.writer(file)
-            writer.writerow(["x", "y"])
+            writer.writerow(["x", "y", "s"])
             for i in range(len(self.x)):
-                writer.writerow([self.x[i], self.y[i]])
+                writer.writerow([self.x[i], self.y[i], self.s])
         pass
 
 class HectorNav:
@@ -215,6 +217,8 @@ class HectorTrack(HectorControl):
         self.pose_goal.x = float(input("Digite x_goal: "))
         
         self.pose_goal.y =  float(input("Digite y_goal: "))
+        # self.pose_goal.x = 20
+        # self.pose_goal.y =  21
         
         d_tolerance = 0.3
 
@@ -228,14 +232,14 @@ class HectorTrack(HectorControl):
            
             self.path_goal(d)
             
-            # self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y)
+            # self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0)
 
 
             # # EXIT CONDITION
             if (d < d_tolerance):
                 v = Twist()
                 self.move(v)
-                # self.dataviwer.parser_csv()
+                self.dataviwer.parser_csv()
                 break
         pass
 
@@ -248,7 +252,7 @@ class HectorTrack(HectorControl):
         
         
         # Determine Alfa, Beta and Theta
-        alfa = self.rot_gaz.x
+        alfa = self.rot_gaz.z
         beta = np.arctan2((self.pose_goal.y - self.pose_current.y),(self.pose_goal.x -  self.pose_current.x))
         theta = beta - alfa 
 
@@ -257,9 +261,10 @@ class HectorTrack(HectorControl):
         # print(theta)
         # print(pose_current.x)
         # print(pose_current.y)
-
+        
         # SPEED FORCE
         self.obstacle_avoid(np.rad2deg(theta))
+        self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 1)
         v_mod = 0
         if(d > 0.5):
             v_mod = 0.5

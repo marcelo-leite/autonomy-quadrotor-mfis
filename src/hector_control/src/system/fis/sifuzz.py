@@ -251,14 +251,13 @@ class sifuzzy(defuzz):
                 aggr_p = 1
             
             for j in range(len(r) - 1):
-                if(r[j] != "i"):
+                if(r[j] != "inf"):
                     if( op == 0):
                         aggr_p  = np.fmax(aggr_p, f_ativ[j][int(r[j])])
                     elif( op == 1):
                         aggr_p  = np.fmin(aggr_p, f_ativ[j][int(r[j])])
             # RULE PREPOSITION INPUT WITH OUTPUT AGGREGATION FMIN
             aux = len(r) - 1
-            # print(r[aux])
             aggr.append(np.fmin(aggr_p, self.foutput.v[0].f[int(r[aux])]))
         
         # UNIAO SETS FUZZY
