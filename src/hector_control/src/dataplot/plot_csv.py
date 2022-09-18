@@ -25,25 +25,14 @@ def distance_to_cicle(p, q):
                 break
     return x, y
 
-# df0 = pd.read_csv('datapose.csv', delimiter=',')
-# df1 = pd.read_csv('datapose1.csv', delimiter=',')
-# df2 = pd.read_csv('datapose2.csv', delimiter=',')
-
-df = pd.read_csv('datapose-s13-17-20.csv', delimiter=',')
+# SIMU A) s1   20 17
+# SIMU B) s18  -2 80
+df = pd.read_csv(f'datapose-s1-{0}-{18}.csv', delimiter=',')
 x = df['x'].to_numpy()
 y = df['y'].to_numpy()
 s = df['s'].to_numpy()
-# x0 = df0['x'].to_numpy()
-# y0 = df0['y'].to_numpy()
 
-
-
-# x1 = df1['x'].to_numpy()
-# y1 = df1['y'].to_numpy()
-
-# x2 = df2['x'].to_numpy()
-# y2 = df2['y'].to_numpy()
-# s2 = df2['s'].to_numpy()
+pose = [[round(x[0]), round(y[0])], [round(x[-1]), round(y[-1])]]
 
 y_fis = y[s == 1]
 x_fis = x[s == 1]
@@ -65,44 +54,41 @@ for i in range(len(xo)):
 for p in pilar:
     ax.add_patch(p)
 
-plt.scatter(0,0, c="green")
-plt.scatter(17,20, c="red")
+
+
 # PLOT
-
-# CONFIG
-
-plt.xlim([-2,22])
-plt.ylim([-2,22])
 
 plt.ylabel("Eixo Y")
 plt.xlabel("Eixo X")
-plt.xticks(np.arange(-2, 26, 2))
-plt.yticks(np.arange(-2, 26, 2))
+# plt.xticks(np.arange(-1, 22, 3))
+# plt.yticks(np.arange(-2, 22, 3))
+# plt.grid()
 lw = 2
 k = 0.7
 
-# va = distance_to_cicle([xo, yo], [x0, y0])
+# plt.xlim([min([pose[0][0], pose[1][0]]) - 2, max([pose[0][0], pose[1][0]]) + 2])
+# plt.ylim([min([pose[0][1], pose[1][1]]) - 2, max([pose[0][1], pose[1][1]]) + 2])
+plt.xlim([-1, 22])
+plt.ylim([-4, 22])
 
 
-# plt.scatter(x0,y0, linewidth=lw, alpha=k, label="APF")
-# plt.scatter(va[0],va[1], linewidth=lw, alpha=k, label="FIS")
-
-
-s_size = 4
+s_size = 5
 # plt.plot(x,y)
-plt.scatter(x_fis, y_fis, s=s_size, label="FIS", linewidths=1)
-plt.scatter(x_fpa, y_fpa, s=s_size, label="FPA")
+plt.scatter(x_fpa, y_fpa, s=s_size, label="FPA-A")
+plt.scatter(x_fis, y_fis, s=s_size, label="FIS-M")
+plt.scatter(pose[0][0], pose[0][1], c="black", s=100)
+plt.scatter(pose[1][0], pose[1][1], c="black", s=100)
 
-# plt.plot(x2,y2,c="black" ,linewidth=lw, alpha=k, label="NEW")
-# plt.plot(x0,y0,linewidth=lw, alpha=k, label="OLD")
+ptext = 0.6
+plt.text(pose[0][0] - ptext, pose[0][1] - 2*ptext, "INICIO", fontsize=9)
+plt.text(pose[1][0]-ptext, pose[1][1] - 2.2*ptext, "FIM", fontsize=9)
+plt.legend(markerscale=2.5, scatterpoints=1, fontsize=10, loc="upper left")
 
-# plt.plot(x1,y1, linewidth=lw, alpha=k, label="Simulação 2")
-# plt.plot(x2,y2, linewidth=lw, alpha=k, label="Simulação 3")
 
-plt.legend()
-plt.grid()
-# plt.savefig('simu_path.eps', format='eps')
+plt.rcParams["figure.figsize"] = (6,6)
+plt.subplots_adjust(left=0.1, right=0.9, top=0.98, bottom=0.1)
+plt.savefig(f'simu({pose[1][0]}:{pose[1][1]}).eps', format='eps', dpi=80)
 plt.show()
-plt.gcf().autofmt_xdate()
+# plt.gcf().autofmt_xdate()
 
 

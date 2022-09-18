@@ -212,59 +212,43 @@ class HectorTrack(HectorControl):
         self.x.append(self.pose_current.x)
         self.y.append(self.pose_current.y)
 
-    def track_go(self):
-
-        o = 1
+    def track_go(self,xg, yg):
         sn = 1
-        while(1):
-            # self.takeoff()
-            rospy.sleep(3)
-            print("Start")
-            # self.pose_goal.x = float(input("Digite x_goal: "))
+        # self.takeoff()
+        rospy.sleep(3)
+        print("Start")
+        # self.pose_goal.x = float(input("Digite x_goal: "))
+        # self.pose_goal.y =  float(input("Digite y_goal: "))
+        self.pose_goal.x = xg
+        self.pose_goal.y = yg
+        self.pose_current.x = self.pos_gaz.x
+        self.pose_current.y = self.pos_gaz.y
+
+
+        d_tolerance = 0.1
+        
+        while True:
             
-            # self.pose_goal.y =  float(input("Digite y_goal: "))
+
+            # Calculate Distance
+            d = ((self.pose_goal.x -  self.pose_current.x)**2 + (self.pose_goal.y -  self.pose_current.y)**2)**(0.5)
+            # d = gp.distance.geodesic(self.navsat_data.latitude,self.navsat_data.longitude, ellipsoid='GRS-80').m
+            # print(d)
+
+            self.path_goal(d)
             
-            if(o == 1):
-                a = np.random.randint(90)
-                a = np.deg2rad(a)
-
-                M = np.sqrt(25**2 + 25*2)
-                p = round(M*np.cos(a)), round(M*np.sin(a))
-                print(f'Destino {p}')
-                
-                self.pose_goal.x = p[0]
-                self.pose_goal.y = p[1]
-                o = 0
-            else: 
-                print(f'Destino (0, 0)')
-                o = 1
-                self.pose_goal.x = 0
-                self.pose_goal.y = 0
-            
-            d_tolerance = 0.3
-
-            while True:
-                
-
-                # Calculate Distance
-                d = ((self.pose_goal.x -  self.pose_current.x)**2 + (self.pose_goal.y -  self.pose_current.y)**2)**(0.5)
-                # d = gp.distance.geodesic(self.navsat_data.latitude,self.navsat_data.longitude, ellipsoid='GRS-80').m
-
-            
-                self.path_goal(d)
-                
-                # self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0)
+            # self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0)
 
 
-                # # EXIT CONDITION
-                if (d < d_tolerance):
-                    v = Twist()
-                    self.move(v)
-                    self.dataviwer.parser_csv(self.pose_goal.x, self.pose_goal.y, sn)
-                    self.dataviwer.reset_data()
-                    sn += 1
-                    break
-            pass
+            # # EXIT CONDITION
+            if (d < d_tolerance):
+                v = Twist()
+                self.move(v)
+                self.dataviwer.parser_csv(self.pose_goal.x, self.pose_goal.y, sn)
+                self.dataviwer.reset_data()
+                sn += 1
+                break
+        pass
 
 
     def path_goal(self, d):
@@ -475,4 +459,29 @@ rospy.init_node("drone_track")
 
 drone = Hector()
 while(True):
-    drone.track_go()
+    drone.track_go(20, 0)
+    drone.track_go(0, 18)
+# o = 1
+# while(True):
+    # if(o == 1):
+    #     a = np.random.randint(90)
+    #     a = np.deg2rad(a)
+
+    #     M = np.sqrt(25**2 + 25*2)
+    #     p = round(M*np.cos(a)), round(M*np.sin(a))
+    #     print(f'Destino {p}')
+        
+    #     xg = p[0]
+    #     yg = p[1]
+    #     o = 0
+    # else: 
+    #     print(f'Destino (0, 0)')
+    #     o = 1
+    #     xg = 0
+    #     yg = 0
+
+    
+
+
+
+

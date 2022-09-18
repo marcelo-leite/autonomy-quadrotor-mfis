@@ -255,9 +255,9 @@ class ObstacleAvoid:
 
 
 # PLOT FUZZY OUTPUT UNIVERSE
-def  foutput_universe():
+def  foutput_universe3D():
 
-    # ax = plt.axes(projection='2d')
+    ax = plt.axes(projection='3d')
     SOA = ObstacleAvoid(0.4,1.2)
     x = np.linspace(0.4, 1.2, 30)
     y = np.linspace(-180, 180, 30)
@@ -283,14 +283,48 @@ def  foutput_universe():
                         Z[i,j] = r[2][k]
                         break
 
-    # ax.contour3D(X, Y, Z, 50, cmap='binary')    
-    # ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap='viridis', edgecolor='none')
+     
+    ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap='viridis', edgecolor='none')
+    ax.contour3D(X, Y, Z, 50, cmap='binary')   
+def  foutput_universe():
 
-    # Za = np.sqrt(np.square(X) + np.square(Y))
+    # ax = plt.axes(projection='2d')
+    SOA = ObstacleAvoid(0.4,1.2)
+    x = np.linspace(0.4, 1.2, 30)
+    y = np.linspace(-180, 180, 30)
+    x = np.around(x, 1)
+    y = np.around(y, 0)
+
+    r = [[], [], []]
+    for d in x:
+        for yaw in y:
+            r[0].append(d)
+            r[1].append(yaw)
+            r[2].append(SOA.avoid_back(d, yaw))
+
+    r[0] = np.around(r[0], decimals=1)
+    r = np.array(r)
+    X, Y = np.meshgrid(x, y)
+    Z = np.zeros(X.shape)
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            for k in range(len(r[0])):
+                if(r[0][k] == X[i,j]):
+                    if(r[1][k] == Y[i, j]):
+                        Z[i,j] = r[2][k]
+                        break
+
     cm = plt.cm.get_cmap('viridis')
 
     plt.contourf(X, Y, Z, cmap=cm) 
-    plt.colorbar()
+
+
+    clb = plt.colorbar()
+    clb.ax.tick_params(labelsize=8) 
+    clb.ax.set_ylabel(r"Ângulo de Desvio $\theta_f$", rotation=90)
+
+    plt.ylabel(r"Ângulo de Destino $\theta$")
+    plt.xlabel(r"Distância de Colisão $d_o$")
     # plt.scatter(X, Y, Z, cmap=cm)
     # plt.show()
 
@@ -305,18 +339,15 @@ def finput1_plot():
     # plt.ylim([-0.1,1.1])
     # plt.xlim([0.4,1.3])
 
-    plt.xlabel("Distância")
+    plt.xlabel(r"Distância de Colisão ($d_o$)")
     plt.ylabel("Pertinência")
     plt.legend()
     # plt.savefig('simu_path.eps', format='eps')
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     # plt.legend(loc ="upper center",bbox_to_anchor=(0.5, 1.11), fontsize=8.6, ncol = 3)
-    
+    plt.subplots_adjust(bottom=0.16)
     plt.savefig('distance_ant.eps', format='eps')
     # plt.show()
-    
-    
-
 def finput2_plot():
     SOA = ObstacleAvoid(0.4,1.2)
     x = SOA.FIS_OAFront.finput.v[1].x
@@ -329,25 +360,32 @@ def finput2_plot():
         # plt.text(x[j] - 5, f[i][j] + 0.01, vl[i])
         plt.plot(x,f[i], label=vl[i])
     plt.xticks(np.arange(-180, 180 + 45, 45))
-    plt.xlabel("Ângulo")
+    plt.xlabel(r"Direção ($\theta_g$)")
     # plt.xlim([-180,180])
     # plt.ylim([0,1])
     plt.ylabel("Pertinência")
     # plt.legend(loc='center right')
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    # plt.legend(loc ="upper center",bbox_to_anchor=(0.5, 1.11), fontsize=8.6, ncol = 8)
-
-    plt.savefig('angle_ant.eps', format='eps')
+    # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.legend(loc ="upper center",bbox_to_anchor=(0.5, 1.13), fontsize=6.9, ncol = 8)
+    plt.subplots_adjust(bottom=0.16, right=0.85)
+    plt.savefig('angle_ant.svg', format='svg')
+   
 
 if __name__ == '__main__':
-    # foutput_universe()
+    
    
 
     # sns.set_theme()
     sns.set_style("white")
-    plt.rcParams["figure.figsize"] = (6,3)
+    # plt.rcParams["figure.figsize"] = (6,3)
+    
     # finput2_plot()
-    finput1_plot()
-    # foutput_universe()
+    # finput1_plot()
+
+    plt.rcParams["figure.figsize"] = (6,4)
+    foutput_universe_test()
+    # foutput_universe3D()
+    plt.subplots_adjust(left=0.12, right=1, top=0.98, bottom=0.12)
+    # plt.savefig(f'soaback_univ.eps', format='eps', dpi=80)
     plt.show()
     
