@@ -346,7 +346,8 @@ def finput1_plot():
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     # plt.legend(loc ="upper center",bbox_to_anchor=(0.5, 1.11), fontsize=8.6, ncol = 3)
     plt.subplots_adjust(bottom=0.16)
-    plt.savefig('distance_ant.eps', format='eps')
+    # plt.savefig('distance_ant.eps', format='eps')
+    # plt.savefig('distance_ant.png', format='png')
     # plt.show()
 def finput2_plot():
     SOA = ObstacleAvoid(0.4,1.2)
@@ -360,7 +361,7 @@ def finput2_plot():
         # plt.text(x[j] - 5, f[i][j] + 0.01, vl[i])
         plt.plot(x,f[i], label=vl[i])
     plt.xticks(np.arange(-180, 180 + 45, 45))
-    plt.xlabel(r"Direção ($\theta_g$)")
+    plt.xlabel(r"Ângulo de Destino ($\theta$)")
     # plt.xlim([-180,180])
     # plt.ylim([0,1])
     plt.ylabel("Pertinência")
@@ -368,7 +369,31 @@ def finput2_plot():
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.legend(loc ="upper center",bbox_to_anchor=(0.5, 1.13), fontsize=6.9, ncol = 8)
     plt.subplots_adjust(bottom=0.16, right=0.85)
-    plt.savefig('angle_ant.svg', format='svg')
+    # plt.savefig('angle_ant.eps', format='eps')
+    plt.savefig('angle_ant.png', format='png')
+
+def foutput1_plot():
+    SOA = ObstacleAvoid(0.4,1.2)
+    x = SOA.FIS_OAFront.finput.v[1].x
+    f = SOA.FIS_OAFront.foutput.v[0].f
+    vl = ["S", "SE", "E", "NE", "N", "NO", "O", "SO"]
+    
+    for i in range(len(f)):
+        # plt.plot(x,f[i])
+        j = np.argmax(f[i])
+        # plt.text(x[j] - 5, f[i][j] + 0.01, vl[i])
+        plt.plot(x,f[i], label=vl[i])
+    plt.xticks(np.arange(-180, 180 + 45, 45))
+    plt.xlabel(r"Ângulo de Desvio ($\theta_d$)")
+    # plt.xlim([-180,180])
+    # plt.ylim([0,1])
+    plt.ylabel("Pertinência")
+    # plt.legend(loc='center right')
+    # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.legend(loc ="upper center",bbox_to_anchor=(0.5, 1.13), fontsize=6.9, ncol = 8)
+    plt.subplots_adjust(bottom=0.16, right=0.85)
+    # plt.savefig('angle_cons.eps', format='eps')
+    plt.savefig('angle_cons.png', format='png')
    
 
 if __name__ == '__main__':
@@ -377,13 +402,14 @@ if __name__ == '__main__':
 
     # sns.set_theme()
     sns.set_style("white")
-    # plt.rcParams["figure.figsize"] = (6,3)
+    plt.rcParams["figure.figsize"] = (6,3)
     
-    # finput2_plot()
+    finput2_plot()
     # finput1_plot()
+    # foutput1_plot()
 
-    plt.rcParams["figure.figsize"] = (6,4)
-    foutput_universe_test()
+    # plt.rcParams["figure.figsize"] = (6,4)
+    # foutput_universe_test()
     # foutput_universe3D()
     plt.subplots_adjust(left=0.12, right=1, top=0.98, bottom=0.12)
     # plt.savefig(f'soaback_univ.eps', format='eps', dpi=80)

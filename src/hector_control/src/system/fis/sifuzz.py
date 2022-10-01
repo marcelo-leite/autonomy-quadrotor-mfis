@@ -272,7 +272,7 @@ class sifuzzy(defuzz):
         x = self.foutput.v[0].x
         u = aggr_t
         
-
+        # DEFUZZ FOM (FIRST MAXIMO)
         z = self.fom(x, u)
         return z
         

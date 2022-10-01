@@ -27,7 +27,7 @@ def distance_to_cicle(p, q):
 
 # SIMU A) s1   20 17
 # SIMU B) s18  -2 80
-df = pd.read_csv(f'datapose-s1-{0}-{18}.csv', delimiter=',')
+df = pd.read_csv(f'datapose-s1-{20}-{17}.csv', delimiter=',')
 x = df['x'].to_numpy()
 y = df['y'].to_numpy()
 s = df['s'].to_numpy()
@@ -60,21 +60,21 @@ for p in pilar:
 
 plt.ylabel("Eixo Y")
 plt.xlabel("Eixo X")
-# plt.xticks(np.arange(-1, 22, 3))
-# plt.yticks(np.arange(-2, 22, 3))
+plt.xticks(np.arange(-5, 22, 5))
+plt.yticks(np.arange(-5, 25, 5))
 # plt.grid()
 lw = 2
 k = 0.7
 
 # plt.xlim([min([pose[0][0], pose[1][0]]) - 2, max([pose[0][0], pose[1][0]]) + 2])
 # plt.ylim([min([pose[0][1], pose[1][1]]) - 2, max([pose[0][1], pose[1][1]]) + 2])
-plt.xlim([-1, 22])
-plt.ylim([-4, 22])
+plt.xlim([-3, 22])
+plt.ylim([-4, 21])
 
 
 s_size = 5
 # plt.plot(x,y)
-plt.scatter(x_fpa, y_fpa, s=s_size, label="FPA-A")
+plt.scatter(x_fpa, y_fpa, s=s_size, label="APF-A")
 plt.scatter(x_fis, y_fis, s=s_size, label="FIS-M")
 plt.scatter(pose[0][0], pose[0][1], c="black", s=100)
 plt.scatter(pose[1][0], pose[1][1], c="black", s=100)
@@ -87,7 +87,7 @@ plt.legend(markerscale=2.5, scatterpoints=1, fontsize=10, loc="upper left")
 
 plt.rcParams["figure.figsize"] = (6,6)
 plt.subplots_adjust(left=0.1, right=0.9, top=0.98, bottom=0.1)
-plt.savefig(f'simu({pose[1][0]}:{pose[1][1]}).eps', format='eps', dpi=80)
+plt.savefig(f'simu({pose[1][0]}:{pose[1][1]}).png', format='png')
 plt.show()
 # plt.gcf().autofmt_xdate()
 
