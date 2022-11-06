@@ -1,8 +1,0 @@
-prefix=/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/devel
-
-Name: hector_control
-Description: Description of hector_control
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
