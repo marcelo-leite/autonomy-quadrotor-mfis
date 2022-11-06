@@ -2,7 +2,7 @@
 
 
 # from time import sleep
-from importlib.resources import path
+# from importlib.resources import path
 from math import radians
 from threading import Thread
 import numpy as np
@@ -216,7 +216,7 @@ class HectorTrack(HectorControl):
         sn = 1
         # self.takeoff()
         rospy.sleep(3)
-        print("Start")
+        print(f"START DESTINO (xg, yg) = ({xg}, {yg})")
         # self.pose_goal.x = float(input("Digite x_goal: "))
         # self.pose_goal.y =  float(input("Digite y_goal: "))
         self.pose_goal.x = xg
@@ -244,8 +244,9 @@ class HectorTrack(HectorControl):
             if (d < d_tolerance):
                 v = Twist()
                 self.move(v)
-                self.dataviwer.parser_csv(self.pose_goal.x, self.pose_goal.y, sn)
-                self.dataviwer.reset_data()
+                print("STOP\n\n")
+                # self.dataviwer.parser_csv(self.pose_goal.x, self.pose_goal.y, sn)
+                # self.dataviwer.reset_data()
                 sn += 1
                 break
         pass
@@ -442,7 +443,7 @@ class HectorTrack(HectorControl):
 
             if(p == 1):
                 theta = radians(theta)
-                self.forward_kinematics(0.5, theta, 0)
+                self.forward_kinematics(0.6, theta, 0)
                 return True
         else:
             return False  
@@ -459,8 +460,10 @@ rospy.init_node("drone_track")
 
 drone = Hector()
 while(True):
-    drone.track_go(20, 0)
-    drone.track_go(0, 18)
+    xo, yo = 20, 0
+    drone.track_go(xo, yo)
+    xo, yo = 0, 18
+    drone.track_go(xo, yo)
 # o = 1
 # while(True):
     # if(o == 1):
