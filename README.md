@@ -114,18 +114,19 @@ See also the list of [contributors](https://github.com/kylelobo/The-Documentatio
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/marcelo-leite/autonomy-quadrotor-mfis/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/marcelo-leite/autonomy-quadrotor-mfis/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/marcelo-leite/autonomy-quadrotor-mfis/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/marcelo-leite/autonomy-quadrotor-mfis/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/marcelo-leite/autonomy-quadrotor-mfis/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/marcelo-cunha/autonomy-quadrotor-mfis.svg?style=for-the-badge
+[contributors-url]: https://github.com/marcelo-cunha/autonomy-quadrotor-mfis/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/marcelo-cunha/autonomy-quadrotor-mfis.svg?style=for-the-badge
+[forks-url]: https://github.com/marcelo-cunha/autonomy-quadrotor-mfis/network/members
+[stars-shield]: https://img.shields.io/github/stars/marcelo-cunha/autonomy-quadrotor-mfis.svg?style=for-the-badge
+[stars-url]: https://github.com/marcelo-cunha/autonomy-quadrotor-mfis/stargazers
+[issues-shield]: https://img.shields.io/github/issues/marcelo-cunha/autonomy-quadrotor-mfis.svg?style=for-the-badge
+[issues-url]: https://github.com/marcelo-cunha/autonomy-quadrotor-mfis/issues
+[license-shield]: https://img.shields.io/github/license/marcelo-cunha/autonomy-quadrotor-mfis.svg?style=for-the-badge
+[license-url]: https://github.com/marcelo-cunha/autonomy-quadrotor-mfis/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/leite-marcelo
+
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
