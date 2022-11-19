@@ -1,5 +1,5 @@
 
-<h3 align="center">Quadrotor FIS</h3>
+<h2 align="center">QUADROTOR FIS</h2>
 
 <div align="center">
 
@@ -7,7 +7,10 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
+<br>
 [![MIT License][license-shield]][license-url]
+[![Build][build-shield]][license-url]
+<br>
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 </div>
@@ -18,23 +21,20 @@
     <br> 
 </p>
 
-## 📝 Table of Contents
+## Contents
 
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Deployment](#deployment)
 - [Usage](#usage)
 - [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
 - [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
 
-## 🧐 About <a name = "about"></a>
+## About <a name = "about"></a>
 
-Write about 1-2 paragraphs describing the purpose of your project.
+This research is a new planning of local route planning based on fuzzy logic capable of maneuvering an air vehicle over an unknown environment, a world of diverse obstacles.
 
-## 🏁 Getting Started <a name = "getting_started"></a>
+## Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
@@ -53,61 +53,40 @@ A step by step series of examples that tell you how to get a development env run
 Say what the step will be
 
 ```
-Give the example
+mkdir -p quadrotor-ws/src
+cd quadrotor-ws/src
+git clone https://github.com/marcelo-leite/autonomy-quadrotor-mfis.git
 ```
 
-And repeat
-
 ```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo.
-
-## 🔧 Running the tests <a name = "tests"></a>
-
-Explain how to run the automated tests for this system.
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
+cd ..
+rosdep install --from-paths src --ignore-src -r -y
+catkin_make
+source devel/setup.bash
 ```
 
-### And coding style tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## 🎈 Usage <a name="usage"></a>
+## Usage <a name="usage"></a>
 
 Add notes about how to use the system.
+```
+roslaunch cvg
+```
 
-## 🚀 Deployment <a name = "deployment"></a>
+## Deployment <a name = "deployment"></a>
 
 Add additional notes about how to deploy this on a live system.
 
-## ⛏️ Built Using <a name = "built_using"></a>
+## Built Using <a name = "built_using"></a>
 
-- [ROS](https://www.ros.org/) - ROS - Robot Operating System
+- [ROS](https://www.ros.org/) - Robot Operating System
 
 
-## ✍️ Authors <a name = "authors"></a>
+## Authors <a name = "authors"></a>
 
-- [@Marcelo Leite](https://github.com/leite-marcelo) - Idea & Initial work
+- [@Marcelo Leite](https://github.com/leite-marcelo) - Student Electrical Engineer
 
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
 
-## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- References
 
 
 
@@ -124,8 +103,13 @@ See also the list of [contributors](https://github.com/kylelobo/The-Documentatio
 [issues-url]: https://github.com/marcelo-leite/autonomy-quadrotor-mfis/issues
 [license-shield]: https://img.shields.io/github/license/marcelo-leite/autonomy-quadrotor-mfis.svg?style=for-the-badge
 [license-url]: https://github.com/marcelo-leite/autonomy-quadrotor-mfis/LICENSE.txt
+
+[build-shield]: https://img.shields.io/docker/automated/marcelo-leite/autonomy-quadrotor-mfis?style=for-the-badge
+
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/leite-marcelo
+
+
 
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white

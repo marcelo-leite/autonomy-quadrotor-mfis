@@ -1,18 +1,12 @@
 <?xml version="1.0"?>
 
 <launch>
-   <!-- roslaunch hector_control empty_world.launch gui:=true -->
-  <!-- Start Gazebo with wg world running in (max) realtime -->
-  <!-- <include file="$(find hector_gazebo_worlds)/launch/obstacles_scene.launch">
-    <arg name="gui" value="$(arg gui)"/>
-  </include> -->
-
-
 
   <include file="$(find hector_gazebo_worlds)/launch/start.launch">
     <arg name="gui" value="$(arg gui)"/>
     <!-- <arg name="world" value="$(find hector_gazebo_worlds)/worlds/willow_garage.world"/>  -->
-    <arg name="world" value="$(find hector_control)/worlds/quadrotor_sim/model_v1.sdf"/> 
+    <!-- <arg name="world" value="$(find hector_control)/worlds/quadrotor_sim/model.sdf"/>  -->
+    <arg name="world" value="$(find hector_control)/worlds/quadrotor_sim/scene_obstacle_v2.sdf"/> 
   </include>
    
   <!-- Spawn simulated quadrotor uav -->
@@ -26,4 +20,6 @@
   <!-- Start Hector Action: Takeoff, Land -->
   <node name="hector_action" pkg="hector_control" type="action.py">
   </node>
+
+  
 </launch>
