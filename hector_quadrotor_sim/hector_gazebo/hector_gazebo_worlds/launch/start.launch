@@ -2,7 +2,6 @@
 
 <launch>
   <arg name="world" default="worlds/empty.world"/>
-  <!-- <arg name="world" value="$(find hector_gazebo_worlds)/worlds/willow_garage.world"/>  -->
   <arg name="gui" default="true"/>
   <arg name="args" default=""/>
   

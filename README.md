@@ -43,12 +43,10 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them.
 
 ```
-Give examples
+
 ```
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running.
+### Setup - Ubuntu 20.04
 
 Say what the step will be
 
@@ -68,15 +66,16 @@ source devel/setup.bash
 
 ## Usage <a name="usage"></a>
 
-Add notes about how to use the system.
+
+Launch simulation with rviz e a user interface window of Gazebo:
 ```
-roslaunch cvg
+roslaunch hector_control obstacle_word.lauch gui:=true
 ```
 
-## Deployment <a name = "deployment"></a>
-
-Add additional notes about how to deploy this on a live system.
-
+Launch simulation with rviz without a user interface window of Gazebo: 
+```
+roslaunch hector_control obstacle_word.lauch gui:=false
+```
 ## Built Using <a name = "built_using"></a>
 
 - [ROS](https://www.ros.org/) - Robot Operating System
