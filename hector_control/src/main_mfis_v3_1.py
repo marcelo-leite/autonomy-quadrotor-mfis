@@ -1,10 +1,7 @@
-
-
-
 # from time import sleep
 # from importlib.resources import path
 from math import radians
-from threading import Thread
+# from threading import Thread
 import numpy as np
 import geopy as gp
 import os

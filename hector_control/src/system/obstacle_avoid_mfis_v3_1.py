@@ -1,14 +1,6 @@
-
-from array import array
-from cProfile import label
-from dataclasses import replace
-from re import M
-import sys
-import os
-from tkinter import font
-
 import numpy as np
 import pandas as pd
+import os
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -190,8 +182,11 @@ class ObstacleAvoid:
         self.FIS_OARight.foutput.addmb(0, ySO)
 
         # RULE
-
-        path_d = "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/src/hector_control/src/system/datarule/v3/"
+        cwd = os.path.realpath(os.path.dirname(__file__))
+        path_d = str(cwd) + "/datarule/v3/"
+        print(path_d)
+        # path_d = "/home/marc/ros-ws/theconstructcore-ws/quadrotor-ws/src/hector_control/src/system/datarule/v3/"
+        
         datarule_b = pd.read_csv(path_d + str("datarule_rback.csv"), delimiter=',')
         datarule_f = pd.read_csv(path_d +  str("datarule_rfront.csv"))
         datarule_r = pd.read_csv(path_d + str("datarule_rright.csv"))
