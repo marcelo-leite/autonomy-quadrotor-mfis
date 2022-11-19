@@ -48,7 +48,7 @@ What things you need to install the software and how to install them.
 
 ### Setup - Ubuntu 20.04
 
-Say what the step will be
+
 
 ```
 mkdir -p quadrotor-ws/src
