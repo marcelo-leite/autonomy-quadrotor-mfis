@@ -38,22 +38,13 @@ This research is a new planning of local route planning based on fuzzy logic cap
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
+
 ### Prerequisites
-
-What things you need to install the software and how to install them.
-
-```
-
-```
-
-### Setup - Ubuntu 20.04
-
-
 
 ```
 mkdir -p quadrotor-ws/src
 cd quadrotor-ws/src
-git clone https://github.com/marcelo-leite/autonomy-quadrotor-mfis.git
+git clone --recursive https://github.com/marcelo-leite/autonomy-quadrotor-mfis.git
 ```
 
 ```
@@ -69,21 +60,23 @@ source devel/setup.bash
 
 Launch simulation with rviz e a user interface window of Gazebo:
 ```
-roslaunch hector_control obstacle_word.lauch gui:=true
+roslaunch hector_quadrotor_demo obstacles_world.lauch gui:=true
 ```
 
 Launch simulation with rviz without a user interface window of Gazebo: 
 ```
-roslaunch hector_control obstacle_word.lauch gui:=false
+roslaunch  hector_quadrotor_demo obstacles_world.lauch gui:=false
 ```
 ## Built Using <a name = "built_using"></a>
 
 - [ROS](https://www.ros.org/) - Robot Operating System
 
 
-## Authors <a name = "authors"></a>
+## Author <a name = "authors"></a>
 
 - [@Marcelo Leite](https://github.com/leite-marcelo) - Student Electrical Engineer
+- [@Selmo-Eduardo](https://github.com/selmoeduardo) - Dr. Electrical Engineering
+
 
 
 
@@ -110,8 +103,3 @@ roslaunch hector_control obstacle_word.lauch gui:=false
 
 
 
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
