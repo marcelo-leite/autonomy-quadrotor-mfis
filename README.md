@@ -75,7 +75,17 @@ roslaunch  hector_quadrotor_demo obstacles_world.lauch gui:=false
 ## Author <a name = "authors"></a>
 
 - [@Marcelo Leite](https://github.com/leite-marcelo) - Student Electrical Engineer
-- [@Selmo-Eduardo](https://github.com/selmoeduardo) - Dr. Electrical Engineering
+- [@Selmo Eduardo](https://github.com/selmoeduardo) - Dr. Electrical Engineer
+
+## Sponsors
+
+This research is funded thanks to the generous support of
+
+<div  align="center">
+    <img src="https://www.fapema.br/wp-content/uploads/2022/05/logo-FAPEMA-AZUL-top1.png"alt="drawing" height="150"/>
+    <img src="https://estudenoifma.ifma.edu.br/wp-content/themes/ps-theme-master/img/footer-marca.png" alt="drawing" height="90"/>
+
+</div>
 
 
 
