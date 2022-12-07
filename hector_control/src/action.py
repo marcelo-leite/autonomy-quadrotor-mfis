@@ -30,17 +30,7 @@ class Action:
         
         self.twist_msg.linear.z = 0
         self.cmd_vel_pub.publish(self.twist_msg)
-    
-    def takeoff(self):
-        self.twist_msg.linear.z = 0.4
-        i = 0
-        while i < 3:
-            self.cmd_vel_pub.publish(self.twist_msg)
-            i = i + 1
-            self.rate.sleep()
-        
-        self.twist_msg.linear.z = 0
-        self.cmd_vel_pub.publish(self.twist_msg)
+
 
     def land_callback(self, msg): 
         self.twist_msg.linear.z = -0.5
@@ -53,7 +43,7 @@ class Action:
         self.twist_msg.linear.z = 0
         self.cmd_vel_pub.publish(self.twist_msg)
 
-rospy.init_node("hector_actions")
+rospy.init_node("hector_quadrotor_actions")
 action = Action()
 action.takeoff()
 # takeoff = rospy.Publisher('/takeoff', Empty, queue_size=1)
