@@ -44,7 +44,7 @@ These instructions will get you a copy of the project up and running on your loc
 ```
 mkdir -p quadrotor-ws/src
 cd quadrotor-ws/src
-git clone --recursive https://github.com/marcelo-leite/autonomy-quadrotor-mfis.git
+git clone --recursive https://github.com/marcelo-leite/hector_quadrotor_autonomous.git
 ```
 
 ```
