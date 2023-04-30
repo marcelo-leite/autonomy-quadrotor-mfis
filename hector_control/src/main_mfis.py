@@ -41,23 +41,26 @@ class DataViwer():
         self.alfa = []
         pass
 
-    def coleta_data(self, x, y, s):
+    def coleta_data(self, x, y, s, t):
         self.x.append(x)
         self.y.append(y)
         self.s.append(s)
+        self.t.append(t)
         pass
     def reset_data(self):
         self.x = []
         self.y = []
         self.s = []
+        self.t = []
         
-    def parser_csv(self, xg, yg, n):
-        file_name = "datapose-s" + str(n) + "-" + str(round(xg)) + "-" + str(round(yg)) + ".csv"
+    def parser_csv(self, xg, yg, n, fa, fr):
+        print(self.t[-1] - self.t[0])
+        file_name = "datapose-s" + str(n) + "-" + str(round(xg)) + "-" + str(round(yg)) + "-fa" + str(fa) + "-fr" +str(fr) + ".csv"
         with open(file_name, 'w') as file:
             writer = csv.writer(file)
-            writer.writerow(["x", "y", "s"])
+            writer.writerow(["x", "y", "s", "t"])
             for i in range(len(self.x)):
-                writer.writerow([self.x[i], self.y[i], self.s[i]])
+                writer.writerow([self.x[i], self.y[i], self.s[i], self.t[i]])
         pass
 
 class HectorNav:
@@ -187,12 +190,27 @@ class HectorTrack(HectorControl):
         self.pose_init.y =  self.navsat_data.latitude
 
 
-        self.pose_goal = Vector2D()
-        self.pose_current = Vector2D()
+        self.pose_goal = Vector3D()
+        self.pose_current = Vector3D()
     
         # self.d_max = 1.2
         self.d_max = 1.4
         self.d_min = 0.4
+
+        # Virtual Force - Atractive and Repulsive - Fa [0,1] - Fr[0,1]
+        # Default Value*
+        # self.Fa = 0.5
+        # self.Fr = 0.6
+        
+        # Test Value
+        # .25 0.5 0.75 1.0
+        self.Fa = 1
+        self.Fr = 0.5
+
+        # State Colision
+        self.isColision = False
+
+
         self.SOA = ObstacleAvoid(self.d_min, self.d_max)
         self.dataviwer = DataViwer()
     
@@ -205,7 +223,7 @@ class HectorTrack(HectorControl):
         self.y.append(self.pose_current.y)
 
     def track_go(self,xg, yg):
-        sn = 1
+        sn = 3
         # self.takeoff()
         rospy.sleep(3)
         print(f"START DESTINO (xg, yg) = ({xg}, {yg})")
@@ -215,6 +233,7 @@ class HectorTrack(HectorControl):
         self.pose_goal.y = yg
         self.pose_current.x = self.pos_gaz.x
         self.pose_current.y = self.pos_gaz.y
+        self.pose_current.z = self.pos_gaz.z
 
 
         d_tolerance = 0.1
@@ -229,18 +248,23 @@ class HectorTrack(HectorControl):
 
             self.path_goal(d)
             
-            # self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0)
+            # self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0, )
 
 
             # # EXIT CONDITION
             if (d < d_tolerance):
                 v = Twist()
                 self.move(v)
-                print("STOP\n\n")
-                # self.dataviwer.parser_csv(self.pose_goal.x, self.pose_goal.y, sn)
+                print("STOP - CHEGOU\n\n")
+                self.dataviwer.parser_csv(self.pose_goal.x, self.pose_goal.y, sn,  self.Fa, self.Fr)
                 # self.dataviwer.reset_data()
                 sn += 1
                 break
+            if(self.isColision):
+                print("STOP - COLEDIU\n\n")
+                self.dataviwer.parser_csv(self.pose_goal.x, self.pose_goal.y, sn, self.Fa, self.Fr)
+                break
+                
         pass
 
 
@@ -267,31 +291,36 @@ class HectorTrack(HectorControl):
         beta = np.arctan2((self.pose_goal.y - self.pose_current.y),(self.pose_goal.x -  self.pose_current.x))
         theta = beta - alfa 
 
+        # print(rospy.get_time())
         if(1):
             # SPEED FORCE
             v_mod = 0
-            if(d > 0.5):
-                v_mod = 0.5
+            if(d > self.Fa):
+                v_mod = self.Fa
             else:
                 v_mod = d
-            
 
             active = self.obstacle_avoid(np.rad2deg(theta))
             if(active):
-                self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 1)
+                self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 1, rospy.get_time())
                 pass
             else:
                 self.forward_kinematics(v_mod, theta, 0)
-                self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0)
+                self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0, rospy.get_time())
                 pass
 
     def control_yaw(self, err):
         v = Twist()
         # v.angular.z = err*(2)
         v.angular.z = err*(2)
+        if(np.abs(v.angular.z) < 1):
+            self.move(v)
+        else:
+            v.angular.z = np.sign(v.angular.z)*1
+            self.move(v)
         # print(np.rad2deg(err))
         # print(np.rad2deg(alfa))
-        self.move(v)
+       
 
 
     def forward_kinematics(self, v_mod, theta, state):
@@ -379,12 +408,13 @@ class HectorTrack(HectorControl):
             for k in  range(len(do_array[j])):
                 if(str(do_array[j][k]) == "inf"):
                     do_array[j][k] = 100
-                elif(do_array[j][k] < self.d_min):
+                # elif(do_array[j][k] < self.d_min ):
+                elif(do_array[j][k] < 0.2 ):
                     do_array[j][k] = 100
                     
         
         # # ROUND ARRAY 08539
-        arr = np.round(do_array, 1)
+        arr = np.round(do_array, 2)
         # print(af_array)
         # print(arr[0])
         # print()
@@ -405,8 +435,10 @@ class HectorTrack(HectorControl):
                 index = row
         
 
-    
-        min = np.round(min, 1)
+        
+        # min = np.round(min, )
+        # print([min])
+        # print(min)
 
         if(str(index) != "inf" and min <= self.d_max and min >= self.d_min):
             # SELECT REGION TO ENABLE FIS OBSTACLE AVOID 
@@ -424,7 +456,6 @@ class HectorTrack(HectorControl):
                 theta = self.SOA.avoid_front(min, yaw)
             elif(index == 1):
                 theta = self.SOA.avoid_right(min, yaw)
-                # print(theta)
             elif(index == 2):
                 theta = self.SOA.avoid_back(min, yaw)
             elif(index == 3):
@@ -432,11 +463,12 @@ class HectorTrack(HectorControl):
             else:  
                 p =  0
                 self.forward_kinematics(0, theta)
-
             if(p == 1):
                 theta = radians(theta)
-                self.forward_kinematics(0.6, theta, 0)
+                self.forward_kinematics(self.Fr, theta, 0)
                 return True
+        elif(min < self.d_min):
+            self.isColision = True
         else:
             return False  
                 
@@ -451,11 +483,15 @@ class Hector(HectorTrack):
 rospy.init_node("drone_track")
 
 drone = Hector()
-while(True):
-    xo, yo = 20, 0
-    drone.track_go(xo, yo)
-    xo, yo = 0, 18
-    drone.track_go(xo, yo)
+
+xo, yo = 21, 18
+drone.track_go(xo, yo)
+
+# while(True):
+#     xo, yo = 20, 0
+#     drone.track_go(xo, yo)
+#     xo, yo = 0, 18
+#     drone.track_go(xo, yo)
 # o = 1
 # while(True):
     # if(o == 1):
