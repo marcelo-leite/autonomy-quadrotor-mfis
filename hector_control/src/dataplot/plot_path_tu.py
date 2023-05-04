@@ -28,7 +28,7 @@ def distance_to_cicle(p, q):
 # SIMU A) s1   20 17
 # SIMU B) s18  -2 80
 cwd = os.path.realpath(os.path.dirname(__file__))
-path_d = str(cwd) + "/../database/test/u"
+path_d = str(cwd) + "/../database/test/tu"
 
 dfl = []
 dfl.append(pd.read_csv(f'{path_d}/datapose-s1-{21}-{18}-fa1-fr0.5.csv', delimiter=','))

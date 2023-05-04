@@ -41,33 +41,37 @@ class DataViwer():
         self.alfa = []
         pass
 
-    def coleta_data(self, x, y, s, t):
+    def coleta_data(self, x, y, s, t, alfa, beta):
         self.x.append(x)
         self.y.append(y)
         self.s.append(s)
         self.t.append(t)
+        self.alfa.append(alfa)
+        self.beta.append(beta)
         pass
     def reset_data(self):
         self.x = []
         self.y = []
         self.s = []
         self.t = []
+        self.alfa = []
+        self.beta = []
         
     def parser_csv(self, xg, yg, n, fa, fr):
         print(self.t[-1] - self.t[0])
         file_name = "datapose-s" + str(n) + "-" + str(round(xg)) + "-" + str(round(yg)) + "-fa" + str(fa) + "-fr" +str(fr) + ".csv"
         with open(file_name, 'w') as file:
             writer = csv.writer(file)
-            writer.writerow(["x", "y", "s", "t"])
+            writer.writerow(["x", "y", "s", "t", "alfa", "beta"])
             for i in range(len(self.x)):
-                writer.writerow([self.x[i], self.y[i], self.s[i], self.t[i]])
+                writer.writerow([self.x[i], self.y[i], self.s[i], self.t[i], self.alfa[i], self.beta[i]])
         pass
 
 class HectorNav:
     def __init__(self):
 
         # BRUTE DATAS
-        self.rate = rospy.Rate(10) 
+        self.rate = rospy.Rate(100) 
         self.imu_data = Imu()
         self.mag_data = Vector3Stamped()
         self.navsat_data = NavSatFix()
@@ -152,7 +156,7 @@ class HectorControl(HectorNav):
     def __init__(self):
         super().__init__()
 
-        self.rate = rospy.Rate(50) 
+        # self.rate = rospy.Rate(50) 
         # PUBLISHER
         self.land_pub = rospy.Publisher("/land", Empty, queue_size=1)
         self.takeoff_pub = rospy.Publisher("/takeoff", Empty, queue_size=1)
@@ -174,6 +178,7 @@ class HectorControl(HectorNav):
 
     def move(self, vel):
         self.cmd_vel_pub.publish(vel)
+        self.rate.sleep()
         pass
 
     def teleop_keyboard(self):
@@ -204,12 +209,15 @@ class HectorTrack(HectorControl):
         
         # Test Value
         # .25 0.5 0.75 1.0
-        self.Fa = 1
+        self.Fa = 0.5
         self.Fr = 0.5
 
         # State Colision
         self.isColision = False
-
+        
+        # Test - Record V Lienar
+        self.vlx = 0
+        self.vly = 0
 
         self.SOA = ObstacleAvoid(self.d_min, self.d_max)
         self.dataviwer = DataViwer()
@@ -235,7 +243,9 @@ class HectorTrack(HectorControl):
         self.pose_current.y = self.pos_gaz.y
         self.pose_current.z = self.pos_gaz.z
 
+        self.ti = rospy.get_time()
 
+            
         d_tolerance = 0.1
         
         while True:
@@ -285,11 +295,10 @@ class HectorTrack(HectorControl):
         self.pose_current.x = self.pos_gaz.x
         self.pose_current.y = self.pos_gaz.y
         
-        
         # Determine Alfa, Beta and Theta
         alfa = self.rot_gaz.z
         beta = np.arctan2((self.pose_goal.y - self.pose_current.y),(self.pose_goal.x -  self.pose_current.x))
-        theta = beta - alfa 
+        theta = beta - alfa
 
         # print(rospy.get_time())
         if(1):
@@ -302,17 +311,19 @@ class HectorTrack(HectorControl):
 
             active = self.obstacle_avoid(np.rad2deg(theta))
             if(active):
-                self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 1, rospy.get_time())
+                self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 1, rospy.get_time(), alfa, beta)
                 pass
             else:
                 self.forward_kinematics(v_mod, theta, 0)
-                self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0, rospy.get_time())
+                self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 0, rospy.get_time(), alfa, beta)
                 pass
 
     def control_yaw(self, err):
         v = Twist()
         # v.angular.z = err*(2)
         v.angular.z = err*(2)
+        v.linear.x = self.vlx
+        v.linear.y = self.vly
         if(np.abs(v.angular.z) < 1):
             self.move(v)
         else:
@@ -321,7 +332,29 @@ class HectorTrack(HectorControl):
         # print(np.rad2deg(err))
         # print(np.rad2deg(alfa))
        
+    def control_rotate_test(self, setpoint):
+        rospy.sleep(3)
+        print(f"START ROTATE TEST")
+        self.ti = rospy.get_time()
 
+        while(rospy.get_time() - self.ti < 20):
+            self.pose_current.x = self.pos_gaz.x
+            self.pose_current.y = self.pos_gaz.y
+            self.pose_current.z = self.pos_gaz.z
+            
+            # Determine Alfa, Beta and Theta
+            alfa = self.rot_gaz.z
+            beta = np.deg2rad(setpoint)
+            theta = beta - alfa 
+
+            self.dataviwer.coleta_data(self.pose_current.x, self.pose_current.y, 1, rospy.get_time(), alfa, beta)
+            self.control_yaw(theta)  
+            # print(rospy.get_time())
+        
+        print("STOP - ORIENTAÇAO CORRIGIDA\n\n")
+        self.dataviwer.parser_csv(0, 0, setpoint, self.Fa, self.Fr)
+        
+        pass
 
     def forward_kinematics(self, v_mod, theta, state):
         
@@ -335,8 +368,13 @@ class HectorTrack(HectorControl):
         # print(v.linear.x)
         # Publishers Velocity
         self.move(v)
+        
+        
+        # Test 
+        self.vlx = v.linear.x
+        self.vly = v.linear.y
+        
         # self.dataviwer.coleta_data(self.pos_gaz.x, self.pos_gaz.y, s)
-        self.rate.sleep()
 
         pass
         
@@ -484,6 +522,11 @@ rospy.init_node("drone_track")
 
 drone = Hector()
 
+# CONTROL ROTATE TEST
+# drone.control_rotate_test(10)
+
+
+# PATH PLANNING TRACK
 xo, yo = 21, 18
 drone.track_go(xo, yo)
 
